@@ -7,8 +7,8 @@ import java.util.ArrayList;
 public class GeneralKocioraw extends Hero {
     public GeneralKocioraw() {}
     public GeneralKocioraw(int mana, String description, ArrayList<String> colors,
-                           String name, int health, int usedTurn) {
-        super(mana, description, colors, name, health, usedTurn);
+                           String name) {
+        super(mana, description, colors, name);
     }
 
     @Override // Blood Thirst ability

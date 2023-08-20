@@ -6,8 +6,8 @@ public class Disciple extends SpecialMinion {
     public Disciple() {
     }
     public Disciple(int mana, String description, ArrayList<String> colors, String name, int health,
-                    int attack, boolean frozen, boolean usedTurn) {
-        super(mana, description, colors, name, health, attack, frozen, usedTurn);
+                    int attack) {
+        super(mana, description, colors, name, health, attack);
     }
 
     @Override // God's Plan ability

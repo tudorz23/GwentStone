@@ -6,8 +6,8 @@ public class TheRipper extends SpecialMinion {
     public TheRipper() {
     }
     public TheRipper(int mana, String description, ArrayList<String> colors, String name, int health,
-                     int attack, boolean frozen, boolean usedTurn) {
-        super(mana, description, colors, name, health, attack, frozen, usedTurn);
+                     int attack) {
+        super(mana, description, colors, name, health, attack);
     }
 
     @Override // Weak Knees ability

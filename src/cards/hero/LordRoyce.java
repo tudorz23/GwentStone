@@ -9,8 +9,8 @@ import gameplay.Board;
 public class LordRoyce extends Hero {
     public LordRoyce() {}
     public LordRoyce(int mana, String description, ArrayList<String> colors,
-                     String name, int health, int usedTurn) {
-        super(mana, description, colors, name, health, usedTurn);
+                     String name) {
+        super(mana, description, colors, name);
     }
 
     @Override // Sub-Zero ability

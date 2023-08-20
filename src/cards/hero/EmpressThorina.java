@@ -9,8 +9,8 @@ import java.util.Comparator;
 public class EmpressThorina extends Hero {
     public EmpressThorina() {}
     public EmpressThorina(int mana, String description, ArrayList<String> colors,
-                          String name, int health, int usedTurn) {
-        super(mana, description, colors, name, health, usedTurn);
+                          String name) {
+        super(mana, description, colors, name);
     }
 
     @Override // Low Blow ability

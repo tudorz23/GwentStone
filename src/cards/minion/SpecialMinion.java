@@ -11,8 +11,8 @@ public class SpecialMinion extends Minion {
     public SpecialMinion() {}
 
     public SpecialMinion(int mana, String description, ArrayList<String> colors, String name,
-                         int health, int attack, boolean frozen, boolean usedTurn) {
-        super(mana, description, colors, name, health, attack, frozen, usedTurn);
+                         int health, int attack) {
+        super(mana, description, colors, name, health, attack);
     }
 
     public void useAbility(Minion minion) {}

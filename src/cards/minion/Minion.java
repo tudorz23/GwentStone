@@ -16,12 +16,12 @@ public class Minion extends Card {
 
     public Minion() {}
     public Minion(int mana, String description, ArrayList<String> colors, String name, int health,
-                  int attack, boolean frozen, boolean usedTurn) {
+                  int attack) {
         super(mana, description, colors, name);
         this.health = health;
         this.attack = attack;
-        this.frozen = frozen;
-        this.usedTurn = usedTurn;
+        this.frozen = false;
+        this.usedTurn = false;
     }
 
     public int getHealth() {

@@ -9,14 +9,13 @@ import java.util.ArrayList;
  */
 public class Hero extends Card {
     private int health;
-    private int usedTurn;
+    private boolean usedTurn;
 
     public Hero() {}
-    public Hero(int mana, String description, ArrayList<String> colors, String name,
-                int health, int usedTurn) {
+    public Hero(int mana, String description, ArrayList<String> colors, String name) {
         super(mana, description, colors, name);
-        this.health = health;
-        this.usedTurn = usedTurn;
+        this.health = 30;
+        this.usedTurn = false;
     }
 
     public void useAbility(Board board, int index) {}
@@ -27,10 +26,10 @@ public class Hero extends Card {
     public void setHealth(int health) {
         this.health = health;
     }
-    public int getUsedTurn() {
+    public boolean getUsedTurn() {
         return usedTurn;
     }
-    public void setUsedTurn(int usedTurn) {
+    public void setUsedTurn(boolean usedTurn) {
         this.usedTurn = usedTurn;
     }
 }
