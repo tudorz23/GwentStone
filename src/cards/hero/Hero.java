@@ -16,6 +16,7 @@ public class Hero extends Card {
         super(mana, description, colors, name);
         this.health = 30;
         this.usedTurn = false;
+        this.setRow(5);
     }
 
     public void useAbility(Board board, int index) {}

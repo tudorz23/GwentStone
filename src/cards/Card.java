@@ -12,6 +12,14 @@ public class Card {
     private ArrayList<String> colors;
     private String name;
 
+    /**
+     * -1 for Minion card in initial state.
+     * 0, 1, 2, 3 for Minion card placed on board.
+     * 4 for Environment card.
+     * 5 for Hero card.
+     */
+    private int row;
+
     public Card() {}
     public Card(int mana, String description, ArrayList<String> colors, String name) {
         this.mana = mana;
@@ -43,5 +51,11 @@ public class Card {
     }
     public void setName(String name) {
         this.name = name;
+    }
+    public int getRow() {
+        return row;
+    }
+    public void setRow(int row) {
+        this.row = row;
     }
 }

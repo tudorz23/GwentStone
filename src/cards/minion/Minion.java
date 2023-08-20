@@ -22,6 +22,7 @@ public class Minion extends Card {
         this.attack = attack;
         this.frozen = false;
         this.usedTurn = false;
+        this.setRow(-1);
     }
 
     public int getHealth() {
