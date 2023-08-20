@@ -3,10 +3,8 @@ package cards;
 import java.util.ArrayList;
 
 /**
- * General Card class that will be extended by Minion
+ * General Card class that will be extended by Minion, Hero
  * and Environment type of classes.
- * What these classes have in common is that their objects will be kept
- * in the deck and the "hands" of the player, as a List of Card objects.
  */
 public class Card {
     private int mana;
