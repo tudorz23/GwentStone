@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class EmpressThorina extends Hero {
+    /* Constructors */
     public EmpressThorina() {}
     public EmpressThorina(int mana, String description, ArrayList<String> colors,
                           String name) {

@@ -6,6 +6,7 @@ import gameplay.Row;
 import java.util.ArrayList;
 
 public class Winterfell extends Environment {
+    /* Constructors */
     public Winterfell() {}
     public Winterfell(int mana, String description, ArrayList<String> colors, String name) {
         super(mana, description, colors, name);

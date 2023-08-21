@@ -5,6 +5,7 @@ import gameplay.Board;
 import java.util.ArrayList;
 
 public class GeneralKocioraw extends Hero {
+    /* Constructors */
     public GeneralKocioraw() {}
     public GeneralKocioraw(int mana, String description, ArrayList<String> colors,
                            String name) {

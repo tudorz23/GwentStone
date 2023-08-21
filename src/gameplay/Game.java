@@ -14,8 +14,6 @@ public class Game {
     private Player player2;
     public Input input;
     public ArrayNode output;
-    // Changes from one mini-game to the other
-    private int shuffleSeed;
 
     /* Constructor */
     public Game(Input input) {
@@ -29,6 +27,7 @@ public class Game {
      * Completes the packDeck field for both Player objects.
      */
     public void parsePlayerDecks() {
+        // Convert the input from the JSON file.
         Converter converter = new Converter();
         player1.setPackDeck(converter.convertDeck(input.getPlayerOneDecks()));
         player2.setPackDeck(converter.convertDeck(input.getPlayerTwoDecks()));
@@ -45,7 +44,8 @@ public class Game {
      */
     public void prepareMiniGame(StartGameInput miniGame) {
         // Set the shuffleSeed
-        this.shuffleSeed = miniGame.getShuffleSeed();
+        // Changes from one mini-game to the other
+        int shuffleSeed = miniGame.getShuffleSeed();
 
         // Set the heroes
         Converter converter = new Converter();
@@ -61,6 +61,8 @@ public class Game {
         Collections.shuffle(player1.getDeck().getCardSet(), new Random(shuffleSeed));
         Collections.shuffle(player2.getDeck().getCardSet(), new Random(shuffleSeed));
     }
+
+
 
     /* Getters and Setters*/
     public Player getPlayer1() {

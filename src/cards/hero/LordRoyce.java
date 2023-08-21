@@ -7,6 +7,7 @@ import cards.minion.Minion;
 import gameplay.Board;
 
 public class LordRoyce extends Hero {
+    /* Constructors */
     public LordRoyce() {}
     public LordRoyce(int mana, String description, ArrayList<String> colors,
                      String name) {

@@ -8,8 +8,8 @@ import java.util.ArrayList;
  * by extending classes.
  */
 public class SpecialMinion extends Minion {
+    /* Constructors */
     public SpecialMinion() {}
-
     public SpecialMinion(int mana, String description, ArrayList<String> colors, String name,
                          int health, int attack) {
         super(mana, description, colors, name, health, attack);

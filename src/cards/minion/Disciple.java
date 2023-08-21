@@ -3,6 +3,7 @@ package cards.minion;
 import java.util.ArrayList;
 
 public class Disciple extends SpecialMinion {
+    /* Constructors */
     public Disciple() {
     }
     public Disciple(int mana, String description, ArrayList<String> colors, String name, int health,

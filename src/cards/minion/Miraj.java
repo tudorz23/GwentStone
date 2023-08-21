@@ -3,9 +3,9 @@ package cards.minion;
 import java.util.ArrayList;
 
 public class Miraj extends SpecialMinion {
+    /* Constructors */
     public Miraj() {
     }
-
     public Miraj(int mana, String description, ArrayList<String> colors, String name,
                  int health, int attack) {
         super(mana, description, colors, name, health, attack);

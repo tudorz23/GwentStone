@@ -5,6 +5,7 @@ import gameplay.Board;
 import java.util.ArrayList;
 
 public class KingMudface extends Hero {
+    /* Constructors */
     public KingMudface() {}
     public KingMudface(int mana, String description, ArrayList<String> colors,
                        String name) {

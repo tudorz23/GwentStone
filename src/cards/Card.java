@@ -20,6 +20,7 @@ public class Card {
      */
     private int row;
 
+    /* Constructors */
     public Card() {}
     public Card(int mana, String description, ArrayList<String> colors, String name) {
         this.mana = mana;
@@ -28,6 +29,7 @@ public class Card {
         this.name = name;
     }
 
+    /* Getters and Setters */
     public int getMana() {
         return mana;
     }

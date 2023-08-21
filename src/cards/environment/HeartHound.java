@@ -9,6 +9,7 @@ import java.util.Comparator;
 import static utils.Constants.ROWS;
 
 public class HeartHound extends Environment {
+    /* Constructors */
     public HeartHound() {}
     public HeartHound(int mana, String description, ArrayList<String> colors, String name) {
         super(mana, description, colors, name);

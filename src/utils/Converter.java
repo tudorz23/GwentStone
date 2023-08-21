@@ -11,11 +11,12 @@ import java.util.ArrayList;
 
 public class Converter {
     /**
-     * Converts CardInput type to Card type
+     * Converts CardInput type to Card type.
+     * Private because it is only used in convertDeck() method.
      * @param cardInput Standard input from the JSON file.
      * @return Card object (instance of Minion or Environment)
      */
-    public Card convertCard(CardInput cardInput) {
+    private Card convertCard(CardInput cardInput) {
         return switch (cardInput.getName()) {
             case "Sentinel", "Berserker", "Goliath", "Warden" ->
                     new Minion(cardInput.getMana(), cardInput.getDescription(),

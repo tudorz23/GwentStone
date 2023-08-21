@@ -3,6 +3,7 @@ package cards.minion;
 import java.util.ArrayList;
 
 public class TheRipper extends SpecialMinion {
+    /* Constructors */
     public TheRipper() {
     }
     public TheRipper(int mana, String description, ArrayList<String> colors, String name, int health,

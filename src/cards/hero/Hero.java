@@ -11,6 +11,7 @@ public class Hero extends Card {
     private int health;
     private boolean usedTurn;
 
+    /* Constructors */
     public Hero() {}
     public Hero(int mana, String description, ArrayList<String> colors, String name) {
         super(mana, description, colors, name);
@@ -21,6 +22,7 @@ public class Hero extends Card {
 
     public void useAbility(Board board, int index) {}
 
+    /* Getters and Setters */
     public int getHealth() {
         return health;
     }

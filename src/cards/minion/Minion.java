@@ -14,6 +14,7 @@ public class Minion extends Card {
     private boolean frozen;
     private boolean usedTurn;
 
+    /* Constructors */
     public Minion() {}
     public Minion(int mana, String description, ArrayList<String> colors, String name, int health,
                   int attack) {
@@ -25,6 +26,7 @@ public class Minion extends Card {
         this.setRow(-1);
     }
 
+    /* Getters and Setters */
     public int getHealth() {
         return health;
     }
