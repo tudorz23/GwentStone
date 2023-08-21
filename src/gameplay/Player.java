@@ -14,10 +14,12 @@ public class Player {
     private ArrayList<Card> hand;
     private int wins;
     private Hero hero;
+    private int mana;
 
     /* Constructor */
     public Player() {
         this.wins = 0;
+        this.mana = 0;
     }
 
     /* Getters and Setters */
@@ -56,6 +58,15 @@ public class Player {
     }
     public void setHero(Hero hero) {
         this.hero = hero;
+    }
+    public int getMana() {
+        return mana;
+    }
+    public void setMana(int mana) {
+        this.mana = mana;
+    }
+    public void addMana(int mana) {
+        this.mana += mana;
     }
 
     @Override

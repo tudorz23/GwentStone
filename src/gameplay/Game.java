@@ -6,19 +6,21 @@ import fileio.GameInput;
 import fileio.Input;
 import fileio.StartGameInput;
 import utils.Converter;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+
 public class Game {
     private Player player1;
     private Player player2;
-    private Player currPlayer;
-    private int turn; // which players' turn it is
+    private Player currPlayer; // reference to the player at turn
+    private Board board;
+    private int round; // number of the current round
+    private int turnChanges; // when it becomes 2, a new round begins
     public Input input;
     public ArrayNode output;
-    private Board board;
+
 
     /* Constructor */
     public Game(Input input) {
@@ -27,7 +29,9 @@ public class Game {
         this.input = input;
         this.output = (new ObjectMapper()).createArrayNode();
         this.board = new Board();
+        this.round = 0;
     }
+
 
     /**
      * Completes the packDeck and nrDecks fields for both Player objects.
@@ -42,11 +46,14 @@ public class Game {
         player2.setNrDecks(input.getPlayerTwoDecks().getNrDecks());
     }
 
+
     /**
      * Sets the current deck for each player.
      * Sets the Hero for each player.
      * Selects the shuffleSeed.
      * Initializes players' hands.
+     * Sets currPlayer to the starting player.
+     * Initializes players' mana.
      * @param miniGame returned from a loop that iterates through all the mini-games
      */
     public void prepareMiniGame(StartGameInput miniGame) {
@@ -71,7 +78,19 @@ public class Game {
         // Initialize hands
         player1.setHand(new ArrayList<>());
         player2.setHand(new ArrayList<>());
+
+        // Set starting player
+        if (miniGame.getStartingPlayer() == 1) {
+            currPlayer = player1;
+        } else {
+            currPlayer = player2;
+        }
+
+        // Initialize players' mana
+        player1.setMana(0);
+        player2.setMana(0);
     }
+
 
     /**
      * This shall be the starting point of the game.
@@ -82,14 +101,68 @@ public class Game {
 
         // Play the games
         for (GameInput game : input.getGames()) {
+            // Make the initial settings to start a mini-game
             prepareMiniGame(game.getStartGame());
-            //playGame();
+
+            playGame();
         }
     }
 
+
     public void playGame() {
+        // Start the first round
+        changeRound();
+
 
     }
+
+    /**
+     * Makes the necessary changes when one of the players' turn is over.
+     */
+    public void changeTurn() {
+        // TODO: add unfreeze functionality before this
+        if (currPlayer == player1) {
+            currPlayer = player2;
+        } else {
+            currPlayer = player1;
+        }
+
+        turnChanges++;
+        // Check if both players took their turns during the current round
+        if (turnChanges == 2) {
+            changeRound();
+            turnChanges = 0;
+        }
+    }
+
+    /**
+     * When turnChanges is equal to 2, a new round should begin.
+     * In every round, both players take a new Card in their hand from their deck
+     * and gain as much mana as the round number.
+     */
+    public void changeRound() {
+        round++;
+        // Add the first card from the deck to the player's hand
+        if (!player1.getDeck().getCardSet().isEmpty()) {
+            player1.getHand().add(player1.getDeck().getCardSet().remove(0));
+        }
+
+        if (!player2.getDeck().getCardSet().isEmpty()) {
+            player2.getHand().add(player2.getDeck().getCardSet().remove(0));
+        }
+
+        // Mana gaining
+        if (round < 10) {
+            player1.addMana(round);
+            player2.addMana(round);
+        } else {
+            // From round 10 onwards, players only gain 10 mana
+            player1.addMana(10);
+            player2.addMana(10);
+        }
+    }
+
+
 
     /* Getters and Setters*/
     public Player getPlayer1() {
