@@ -26,6 +26,18 @@ public class Minion extends Card {
         this.setRow(-1);
     }
 
+    /**
+     * @return row of the player's board where the Minion should be placed
+     */
+    public String getBoardRow() {
+        if (this.getName().equals("The Ripper") || this.getName().equals("Miraj")
+                || this.getName().equals("Goliath") || this.getName().equals("Warden")) {
+            return "front";
+        }
+
+        return "back";
+    }
+
     /* Getters and Setters */
     public int getHealth() {
         return health;

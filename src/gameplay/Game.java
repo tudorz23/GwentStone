@@ -1,5 +1,6 @@
 package gameplay;
 
+import cards.minion.Minion;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import fileio.ActionsInput;
@@ -27,8 +28,8 @@ public class Game {
 
     /* Constructor */
     public Game(Input input) {
-        this.player1 = new Player();
-        this.player2 = new Player();
+        this.player1 = new Player(1);
+        this.player2 = new Player(2);
         this.input = input;
         this.output = (new ObjectMapper()).createArrayNode();
         this.board = new Board();
@@ -112,7 +113,7 @@ public class Game {
     }
 
     /**
-     * Controls the Actual gameplay
+     * Controls the Actual gameplay.
      * @param game Current game of the loop from startGame() method
      */
     public void playGame(GameInput game) {
@@ -176,9 +177,17 @@ public class Game {
         }
     }
 
+    /**
+     * Places a Card from player's hand on the board.
+     * @param index position of the card in player's hand
+     */
     public void placeCard(int index) {
-        if (!erorrPrinter.errorPlaceCard(currPlayer, board, index)) {
-            // do the job
+        if (!erorrPrinter.errorPlaceCard(currPlayer, board, index, output)) {
+            // Row where the card should be placed
+            int rowIndex = currPlayer.getRowToPlace(index);
+
+            // Place tMinion on the board
+            board.row[rowIndex].elems.add((Minion)(currPlayer.getHand().remove(index)));
         }
     }
 

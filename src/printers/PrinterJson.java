@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class PrinterJson {
     private ObjectMapper mapper = new ObjectMapper();
+
     public void cardPrinter(Card card, ArrayNode output) {
         ObjectNode cardPrint = mapper.createObjectNode();
         cardPrint.put("mana", card.getMana());
