@@ -13,12 +13,11 @@ public class Card {
     private String name;
 
     /**
-     * -1 for Minion card in initial state.
-     * 0, 1, 2, 3 for Minion card placed on board.
+     * 3 for Minion card.
      * 4 for Environment card.
      * 5 for Hero card.
      */
-    private int row;
+    private int type;
 
     /* Constructors */
     public Card() {}
@@ -54,11 +53,11 @@ public class Card {
     public void setName(String name) {
         this.name = name;
     }
-    public int getRow() {
-        return row;
+    public int getType() {
+        return type;
     }
-    public void setRow(int row) {
-        this.row = row;
+    public void setType(int row) {
+        this.type = row;
     }
 
     @Override
@@ -68,7 +67,7 @@ public class Card {
                 ", description='" + description + '\'' +
                 ", colors=" + colors +
                 ", name='" + name + '\'' +
-                ", row=" + row +
+                ", type=" + type +
                 '}';
     }
 }

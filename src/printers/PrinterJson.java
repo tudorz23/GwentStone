@@ -14,7 +14,7 @@ public class PrinterJson {
         ObjectNode cardPrint = mapper.createObjectNode();
         cardPrint.put("mana", card.getMana());
 
-        if (card.getRow() != 4 && card.getRow() != 5) {
+        if (card.getType() != 4 && card.getType() != 5) {
             // Minion Card
             cardPrint.put("attackDamage", ((Minion)card).getAttack());
             cardPrint.put("health", ((Minion)card).getHealth());
@@ -30,7 +30,7 @@ public class PrinterJson {
         cardPrint.set("colors", colorPrint);
         cardPrint.put("name", card.getName());
 
-        if (card.getRow() == 5) {
+        if (card.getType() == 5) {
             // Hero Card
             cardPrint.put("health", ((Hero)card).getDescription());
         }

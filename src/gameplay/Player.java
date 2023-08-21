@@ -100,6 +100,9 @@ public class Player {
     public void addMana(int mana) {
         this.mana += mana;
     }
+    public void decreaseMana(int mana) {
+        this.mana -= mana;
+    }
     public int getIndex() {
         return index;
     }

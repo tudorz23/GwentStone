@@ -21,7 +21,7 @@ public class ErrorPrinter {
      * @param output for printing in JSON format
      */
     public boolean errorPlaceCard(Player currPlayer, Board board, int index, ArrayNode output) {
-        if (currPlayer.getHand().get(index).getRow() == 4) {
+        if (currPlayer.getHand().get(index).getType() == 4) {
             printErrorPlaceCard(output, index, "Cannot place environment card on table.");
             return true;
         }

@@ -186,8 +186,12 @@ public class Game {
             // Row where the card should be placed
             int rowIndex = currPlayer.getRowToPlace(index);
 
-            // Place tMinion on the board
+            // Spend player's mana for the operation
+            currPlayer.decreaseMana(currPlayer.getHand().get(index).getMana());
+
+            // Place the Minion on the board
             board.row[rowIndex].elems.add((Minion)(currPlayer.getHand().remove(index)));
+
         }
     }
 
