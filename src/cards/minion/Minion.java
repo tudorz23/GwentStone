@@ -49,4 +49,16 @@ public class Minion extends Card {
     public void setUsedTurn(boolean usedTurn) {
         this.usedTurn = usedTurn;
     }
+
+    @Override
+    public String toString() {
+        return "Minion{" +
+                "mana=" + getMana() +
+                ", description=" + getDescription() +
+                ", colors=" + getColors()+
+                ", name=" + getName()+
+                ", health=" + health +
+                ", attack=" + attack +
+                '}';
+    }
 }

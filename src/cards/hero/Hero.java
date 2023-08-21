@@ -33,4 +33,12 @@ public class Hero extends Card {
     public void setUsedTurn(boolean usedTurn) {
         this.usedTurn = usedTurn;
     }
+
+    @Override
+    public String toString() {
+        return "Hero{" +
+                "health=" + health +
+                ", usedTurn=" + usedTurn +
+                '}';
+    }
 }

@@ -58,4 +58,15 @@ public class Card {
     public void setRow(int row) {
         this.row = row;
     }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "mana=" + mana +
+                ", description='" + description + '\'' +
+                ", colors=" + colors +
+                ", name='" + name + '\'' +
+                ", row=" + row +
+                '}';
+    }
 }

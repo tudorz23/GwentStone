@@ -27,4 +27,12 @@ public class Deck {
     public void setNrCards(int nrCards) {
         this.nrCards = nrCards;
     }
+
+    @Override
+    public String toString() {
+        return "Deck{" +
+                "cardSet=" + cardSet +
+                ", nrCards=" + nrCards +
+                '}';
+    }
 }

@@ -5,6 +5,9 @@ import cards.environment.*;
 import cards.hero.*;
 import cards.minion.*;
 import fileio.CardInput;
+import fileio.DecksInput;
+import gameplay.Deck;
+import java.util.ArrayList;
 
 public class Converter {
     /**
@@ -55,5 +58,32 @@ public class Converter {
             default -> new GeneralKocioraw(cardInput.getMana(), cardInput.getDescription(),
                     cardInput.getColors(), cardInput.getName());
         };
+    }
+
+    /**
+     * Converts the array of decks from JSON input to an array of decks
+     * containing Card objects.
+     * @param decksInput Set of decks from JSON input.
+     * @return ArrayList of Deck classes to be stored in Player.packDeck.
+     */
+    public ArrayList<Deck> convertDeck(DecksInput decksInput) {
+        // The Array of Decks to be returned
+        ArrayList<Deck> packDeck = new ArrayList<>();
+
+        // Iterate through the input array of decks
+        for (ArrayList<CardInput> cards : decksInput.getDecks()) {
+            Deck deck = new Deck(decksInput.getNrCardsInDeck());
+            ArrayList<Card> cardSet = new ArrayList<>();
+
+            // Iterate through the cards of the input deck
+            for (CardInput cardInput : cards) {
+                Card toAddCard = convertCard(cardInput);
+                cardSet.add(toAddCard);
+            }
+
+            deck.setCardSet(cardSet);
+            packDeck.add(deck);
+        }
+        return packDeck;
     }
 }

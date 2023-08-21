@@ -16,6 +16,7 @@ public class Player {
     private boolean turn;
     private Hero hero;
 
+
     public ArrayList<Deck> getPackDeck() {
         return packDeck;
     }
@@ -57,5 +58,18 @@ public class Player {
     }
     public void setHero(Hero hero) {
         this.hero = hero;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "packDeck=" + packDeck + "\n" +
+                ", nrDecks=" + nrDecks + "\n" +
+                ", deck=" + deck +
+                ", hand=" + hand +
+                ", wins=" + wins +
+                ", turn=" + turn +
+                ", hero=" + hero +
+                '}';
     }
 }
