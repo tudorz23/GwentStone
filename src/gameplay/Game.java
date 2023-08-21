@@ -2,18 +2,23 @@ package gameplay;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import fileio.GameInput;
 import fileio.Input;
 import fileio.StartGameInput;
 import utils.Converter;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
 public class Game {
     private Player player1;
     private Player player2;
+    private Player currPlayer;
+    private int turn; // which players' turn it is
     public Input input;
     public ArrayNode output;
+    private Board board;
 
     /* Constructor */
     public Game(Input input) {
@@ -21,10 +26,11 @@ public class Game {
         this.player2 = new Player();
         this.input = input;
         this.output = (new ObjectMapper()).createArrayNode();
+        this.board = new Board();
     }
 
     /**
-     * Completes the packDeck field for both Player objects.
+     * Completes the packDeck and nrDecks fields for both Player objects.
      */
     public void parsePlayerDecks() {
         // Convert the input from the JSON file.
@@ -40,6 +46,7 @@ public class Game {
      * Sets the current deck for each player.
      * Sets the Hero for each player.
      * Selects the shuffleSeed.
+     * Initializes players' hands.
      * @param miniGame returned from a loop that iterates through all the mini-games
      */
     public void prepareMiniGame(StartGameInput miniGame) {
@@ -60,9 +67,29 @@ public class Game {
         // Shuffle the deck of each player, using the shuffleSeed
         Collections.shuffle(player1.getDeck().getCardSet(), new Random(shuffleSeed));
         Collections.shuffle(player2.getDeck().getCardSet(), new Random(shuffleSeed));
+
+        // Initialize hands
+        player1.setHand(new ArrayList<>());
+        player2.setHand(new ArrayList<>());
     }
 
+    /**
+     * This shall be the starting point of the game.
+     */
+    public void startGame() {
+        // Players get their decks
+        parsePlayerDecks();
 
+        // Play the games
+        for (GameInput game : input.getGames()) {
+            prepareMiniGame(game.getStartGame());
+            //playGame();
+        }
+    }
+
+    public void playGame() {
+
+    }
 
     /* Getters and Setters*/
     public Player getPlayer1() {
@@ -76,5 +103,17 @@ public class Game {
     }
     public void setPlayer2(Player player2) {
         this.player2 = player2;
+    }
+    public Player getCurrPlayer() {
+        return currPlayer;
+    }
+    public void setCurrPlayer(Player currPlayer) {
+        this.currPlayer = currPlayer;
+    }
+    public Board getBoard() {
+        return board;
+    }
+    public void setBoard(Board board) {
+        this.board = board;
     }
 }
