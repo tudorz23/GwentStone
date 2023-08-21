@@ -1,5 +1,7 @@
 package gameplay;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import fileio.Input;
 import utils.Converter;
 
@@ -7,6 +9,7 @@ public class Game {
     private Player player1;
     private Player player2;
     public Input input;
+    public ArrayNode output = (new ObjectMapper()).createArrayNode();
 
     public Game(Input input) {
         this.player1 = new Player();
