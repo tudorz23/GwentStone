@@ -58,12 +58,12 @@ public class Deck {
      */
     public Deck deckDeepCopy() {
         Deck copyDeck = new Deck(this.nrCards);
-        copyDeck.cardSet = new ArrayList<>();
+        //copyDeck.cardSet = new ArrayList<>();
 
         // Deep copy each of the cards.
         for (Card card : this.getCardSet()) {
             Card copyCard = cardDeepCopy(card);
-            cardSet.add(copyCard);
+            copyDeck.cardSet.add(copyCard);
         }
 
         return copyDeck;

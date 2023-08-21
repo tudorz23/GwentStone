@@ -32,8 +32,8 @@ public class Game {
         this.player2 = new Player(2);
         this.input = input;
         this.output = (new ObjectMapper()).createArrayNode();
-        this.board = new Board();
-        this.round = 0;
+        //this.board = new Board();
+        //this.round = 0;
     }
 
 
@@ -61,8 +61,7 @@ public class Game {
      * @param miniGame returned from a loop that iterates through all the mini-games
      */
     public void prepareMiniGame(StartGameInput miniGame) {
-        // Set the shuffleSeed
-        // Changes from one mini-game to the other
+        // Set the shuffleSeed (changes from one mini-game to the other)
         int shuffleSeed = miniGame.getShuffleSeed();
 
         // Set the heroes
@@ -93,6 +92,12 @@ public class Game {
         // Initialize players' mana
         player1.setMana(0);
         player2.setMana(0);
+
+        // Initialize the game board
+        board = new Board();
+
+        //Initialize the round
+        round = 0;
     }
 
 
@@ -107,7 +112,6 @@ public class Game {
         for (GameInput game : input.getGames()) {
             // Make the initial settings to start a mini-game
             prepareMiniGame(game.getStartGame());
-
             playGame(game);
         }
     }
