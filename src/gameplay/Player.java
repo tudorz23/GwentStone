@@ -17,6 +17,7 @@ public class Player {
     private Hero hero;
 
 
+    /* Getters and Setters */
     public ArrayList<Deck> getPackDeck() {
         return packDeck;
     }

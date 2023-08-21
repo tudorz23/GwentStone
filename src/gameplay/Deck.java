@@ -53,15 +53,15 @@ public class Deck {
 
     /**
      * Creates a deep Copy for a deck from the player's packDeck.
-     * @param deck deck that must be copied
+     * The copy is of the self instance.
      * @return deep copy of the deck
      */
-    public Deck deckDeepCopy(Deck deck) {
-        Deck copyDeck = new Deck(deck.nrCards);
+    public Deck deckDeepCopy() {
+        Deck copyDeck = new Deck(this.nrCards);
         copyDeck.cardSet = new ArrayList<>();
 
         // Deep copy each of the cards.
-        for (Card card : deck.getCardSet()) {
+        for (Card card : this.getCardSet()) {
             Card copyCard = cardDeepCopy(card);
             cardSet.add(copyCard);
         }

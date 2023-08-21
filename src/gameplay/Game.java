@@ -6,6 +6,9 @@ import fileio.Input;
 import fileio.StartGameInput;
 import utils.Converter;
 
+import java.util.Collections;
+import java.util.Random;
+
 public class Game {
     private Player player1;
     private Player player2;
@@ -49,12 +52,15 @@ public class Game {
         player1.setHero(converter.convertHero(miniGame.getPlayerOneHero()));
         player2.setHero(converter.convertHero(miniGame.getPlayerTwoHero()));
 
+        // Set the chosen deck to the deck from index
+        // "miniGame.getPlayerOneDeckIdx()" of player's packDeck
+        player1.setDeck(player1.getPackDeck().get(miniGame.getPlayerOneDeckIdx()).deckDeepCopy());
+        player2.setDeck(player2.getPackDeck().get(miniGame.getPlayerTwoDeckIdx()).deckDeepCopy());
 
+        // Shuffle the deck of each player, using the shuffleSeed
+        Collections.shuffle(player1.getDeck().getCardSet(), new Random(shuffleSeed));
+        Collections.shuffle(player2.getDeck().getCardSet(), new Random(shuffleSeed));
     }
-
-
-
-
 
     /* Getters and Setters*/
     public Player getPlayer1() {
