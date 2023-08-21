@@ -2,9 +2,11 @@ package gameplay;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import fileio.ActionsInput;
 import fileio.GameInput;
 import fileio.Input;
 import fileio.StartGameInput;
+import printers.ErrorPrinter;
 import utils.Converter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +22,7 @@ public class Game {
     private int turnChanges; // when it becomes 2, a new round begins
     public Input input;
     public ArrayNode output;
+    private ErrorPrinter erorrPrinter = new ErrorPrinter();
 
 
     /* Constructor */
@@ -104,15 +107,26 @@ public class Game {
             // Make the initial settings to start a mini-game
             prepareMiniGame(game.getStartGame());
 
-            playGame();
+            playGame(game);
         }
     }
 
-
-    public void playGame() {
+    /**
+     * Controls the Actual gameplay
+     * @param game Current game of the loop from startGame() method
+     */
+    public void playGame(GameInput game) {
         // Start the first round
         changeRound();
 
+        // Iterate through the actions
+        for (ActionsInput action : game.getActions()) {
+            if (action.getCommand().equals("endPlayerTurn")) {
+                changeTurn();
+            } else if (action.getCommand().equals("placeCard")) {
+                placeCard(action.getHandIdx());
+            }
+        }
 
     }
 
@@ -162,7 +176,11 @@ public class Game {
         }
     }
 
-
+    public void placeCard(int index) {
+        if (!erorrPrinter.errorPlaceCard(currPlayer, board, index)) {
+            // do the job
+        }
+    }
 
     /* Getters and Setters*/
     public Player getPlayer1() {
