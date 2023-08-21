@@ -47,7 +47,9 @@ public class Deck {
                     copyName, ((Minion) card).getHealth(), ((Minion) card).getAttack());
             case "Firestorm" -> new Firestorm(card.getMana(), copyDescription, copyColors, copyName);
             case "Winterfell" -> new Winterfell(card.getMana(), copyDescription, copyColors, copyName);
-            default -> new HeartHound(card.getMana(), copyDescription, copyColors, copyName);
+            case "Heart Hound" -> new HeartHound(card.getMana(), copyDescription, copyColors, copyName);
+            default -> new Minion(card.getMana(), copyDescription, copyColors,
+                    copyName, ((Minion) card).getHealth(), ((Minion) card).getAttack());
         };
     }
 
