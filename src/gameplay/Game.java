@@ -8,6 +8,7 @@ import fileio.GameInput;
 import fileio.Input;
 import fileio.StartGameInput;
 import printers.ErrorPrinter;
+import printers.SuccessPrinter;
 import utils.Converter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +25,7 @@ public class Game {
     public Input input;
     public ArrayNode output;
     private ErrorPrinter erorrPrinter = new ErrorPrinter();
+    private SuccessPrinter successPrinter = new SuccessPrinter();
 
 
     /* Constructor */
@@ -130,6 +132,16 @@ public class Game {
                 changeTurn();
             } else if (action.getCommand().equals("placeCard")) {
                 placeCard(action.getHandIdx());
+            } else if (action.getCommand().equals("getCardsInHand")) {
+                getCardsInHand(action.getPlayerIdx());
+            } else if (action.getCommand().equals("getPlayerDeck")) {
+                getPlayerDeck(action.getPlayerIdx());
+            } else if (action.getCommand().equals("getCardsOnTable")) {
+                getCardsOnTable();
+            } else if (action.getCommand().equals("getPlayerTurn")) {
+                getPlayerTurn();
+            } else if (action.getCommand().equals("getPlayerHero")) {
+                getPlayerHero(action.getPlayerIdx());
             }
         }
 
@@ -196,6 +208,49 @@ public class Game {
             // Place the Minion on the board
             board.row[rowIndex].elems.add((Minion)(currPlayer.getHand().remove(index)));
 
+        }
+    }
+
+    /**
+     * Prints the Card from player [playerIdx] 's hand
+     * @param playerIdx index of the player whose hand should be printed.
+     */
+    public void getCardsInHand(int playerIdx) {
+        if (playerIdx == 1) {
+            successPrinter.printCardsInHand(player1, output);
+        } else {
+            successPrinter.printCardsInHand(player2, output);
+        }
+    }
+
+    /**
+     * Prints the Card from player [playerIdx] 's deck
+     * @param playerIdx index of the player whose deck should be printed.
+     */
+    public void getPlayerDeck(int playerIdx) {
+        if (playerIdx == 1) {
+            successPrinter.printCardsInDeck(player1, output);
+        } else {
+            successPrinter.printCardsInDeck(player2, output);
+        }
+    }
+
+    /**
+     * Prints all the Cards from the board.
+     */
+    public void getCardsOnTable() {
+        successPrinter.printCardsOnTable(board, output);
+    }
+
+    public void getPlayerTurn() {
+        successPrinter.printPlayerTurn(currPlayer.getIndex(), output);
+    }
+
+    public void getPlayerHero(int playerIdx) {
+        if (playerIdx == 1) {
+            successPrinter.printPlayerHero(player1, output);
+        } else {
+            successPrinter.printPlayerHero(player2, output);
         }
     }
 

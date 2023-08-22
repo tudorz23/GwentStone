@@ -26,7 +26,7 @@ public class ErrorPrinter {
             return true;
         }
 
-        if (currPlayer.getHand().get(index).getMana() >= currPlayer.getMana()) {
+        if (currPlayer.getHand().get(index).getMana() > currPlayer.getMana()) {
             printErrorPlaceCard(output, index, "Not enough mana to place card on table.");
             return true;
         }
