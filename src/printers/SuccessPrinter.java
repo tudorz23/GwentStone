@@ -26,7 +26,7 @@ public class SuccessPrinter {
         msg.put("command", "getCardsInHand");
         msg.put("playerIdx", player.getIndex());
 
-        printCardArray(player.getHand(), msg);
+        helperPrintCardArray(player.getHand(), msg);
         output.add(msg);
     }
 
@@ -40,7 +40,7 @@ public class SuccessPrinter {
         msg.put("command", "getPlayerDeck");
         msg.put("playerIdx", player.getIndex());
 
-        printCardArray(player.getDeck().getCardSet(), msg);
+        helperPrintCardArray(player.getDeck().getCardSet(), msg);
         output.add(msg);
     }
 
@@ -52,17 +52,17 @@ public class SuccessPrinter {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "getCardsOnTable");
 
-        ArrayNode bigArray = mapper.createArrayNode();
+        ArrayNode rowArray = mapper.createArrayNode();
         for (int i = 0; i < ROWS; i++) {
-            printMinionArray(board.row[i].elems, bigArray);
+            helperAppendToRowArray(board.row[i].elems, rowArray);
         }
 
-        msg.set("output", bigArray);
+        msg.set("output", rowArray);
         output.add(msg);
     }
 
     /**
-     * Prints the player at turn in JSON format.
+     * Prints the player at turn.
      */
     public void printPlayerTurn(int index, ArrayNode output) {
         ObjectNode msg = mapper.createObjectNode();
@@ -79,18 +79,72 @@ public class SuccessPrinter {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "getPlayerHero");
         msg.put("playerIdx", player.getIndex());
-
-        printHeroJson(player.getHero(), msg);
+        helperCardPrinterJson(player.getHero(), msg);
 
         output.add(msg);
     }
 
+    public void printCardAtPosition(Board board, int x, int y, ArrayNode output) {
+        Card card = board.row[x].elems.get(y);
+
+        ObjectNode msg = mapper.createObjectNode();
+        msg.put("command", "getCardAtPosition");
+        msg.put("x", x);
+        msg.put("y", y);
+        helperCardPrinterJson(card, msg);
+
+        output.add(msg);
+    }
+
+    public void printPlayerMana(Player player, ArrayNode output) {
+         ObjectNode msg = mapper.createObjectNode();
+         msg.put("command", "getPlayerMana");
+         msg.put("playerIdx", player.getIndex());
+         msg.put("output",player.getMana());
+
+         output.add(msg);
+    }
+
+    public void printEnvironmentCardInHand(Player player, ArrayNode output) {
+        ObjectNode msg = mapper.createObjectNode();
+        msg.put("command", "getEnvironmentCardsInHand");
+        msg.put("playerIdx", player.getIndex());
+
+        ArrayList<Card> environmentInHand = new ArrayList<>();
+        for (Card card : player.getHand()) {
+            if (card.getType() == 4) {
+                environmentInHand.add(card);
+            }
+        }
+        helperPrintCardArray(environmentInHand, msg);
+        output.add(msg);
+    }
+
+    public void printFrozenCardsOnTable(Board board, ArrayNode output) {
+        ObjectNode msg = mapper.createObjectNode();
+        msg.put("command", "getFrozenCardsOnTable");
+
+        ArrayList<Card> frozenCards = new ArrayList<>();
+        for (int i = 0; i < ROWS; i++) {
+            for (Minion card : board.row[i].elems) {
+                // We know for sure Card is a Minion (since it is on the table)
+                if (card.isFrozen()) {
+                    frozenCards.add(card);
+                }
+            }
+        }
+
+        helperPrintCardArray(frozenCards, msg);
+        output.add(msg);
+    }
+
+    /* Helpers for printing Cards in JSON format. */
     /**
      * Prints an ArrayList of Card in JSON format
      * @param cards the card list that should be printed
      * @param message the whole object that should be written for the respective command
      */
-    public void printCardArray(ArrayList<Card> cards, ObjectNode message) {
+    public void helperPrintCardArray(ArrayList<Card> cards, ObjectNode message) {
         // The array of cards in JSON format
         ArrayNode cardListPrint = mapper.createArrayNode();
 
@@ -124,11 +178,12 @@ public class SuccessPrinter {
     }
 
     /**
-     * Prints an ArrayList of Minion in JSON format
-     * @param minions the card list that should be printed
-     * @param message the whole object that should be written for the respective command
+     * Appends a row from the board to the rowArray.
+     * Helper for printing the Cards from the board.
+     * @param minions the card list that should be appended
+     * @param rowArray ArrayNode of the current row from the board
      */
-    public void printMinionArray(ArrayList<Minion> minions, ArrayNode bigArray) {
+    public void helperAppendToRowArray(ArrayList<Minion> minions, ArrayNode rowArray) {
         // The array of cards in JSON format
         ArrayNode cardListPrint = mapper.createArrayNode();
 
@@ -153,29 +208,41 @@ public class SuccessPrinter {
             cardListPrint.add(printCard);
         }
 
-        bigArray.add(cardListPrint);
+        // Add the Card array (representing a row) to the row array
+        rowArray.add(cardListPrint);
     }
 
     /**
-     * Prints a Hero to JSON.
+     * General Card printer in JSON format function.
+     * Appends to 'message' the Card in JSON format.
+     * @param card Card to print
+     * @param message ObjectNode that the message should be appended to
      */
-    public void printHeroJson(Hero hero, ObjectNode message) {
-        ObjectNode printHero = mapper.createObjectNode();
+    public void helperCardPrinterJson(Card card, ObjectNode message) {
+        ObjectNode cardPrint = mapper.createObjectNode();
+        cardPrint.put("mana", card.getMana());
 
-        printHero.put("mana", hero.getMana());
+        if (card.getType() == 3) {
+            // Minion Card
+            cardPrint.put("attackDamage", ((Minion)card).getAttack());
+            cardPrint.put("health", ((Minion)card).getHealth());
+        }
 
-        printHero.put("description", hero.getDescription());
+        cardPrint.put("description", card.getDescription());
 
         // Print the colors string array
         ArrayNode colorPrint = mapper.createArrayNode();
-        for (String color : hero.getColors()) {
+        for (String color : card.getColors()) {
             colorPrint.add(color);
         }
+        cardPrint.set("colors", colorPrint);
+        cardPrint.put("name", card.getName());
 
-        printHero.set("colors", colorPrint);
-        printHero.put("name", hero.getName());
-        printHero.put("health", hero.getHealth());
+        if (card.getType() == 5) {
+            // Hero Card
+            cardPrint.put("health", ((Hero)card).getHealth());
+        }
 
-        message.set("output", printHero);
+        message.set("output", cardPrint);
     }
 }

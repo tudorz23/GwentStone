@@ -142,6 +142,14 @@ public class Game {
                 getPlayerTurn();
             } else if (action.getCommand().equals("getPlayerHero")) {
                 getPlayerHero(action.getPlayerIdx());
+            } else if (action.getCommand().equals("getCardAtPosition")) {
+                getCardAtPosition(action.getX(), action.getY());
+            } else if (action.getCommand().equals("getPlayerMana")) {
+                getPlayerMana(action.getPlayerIdx());
+            } else if (action.getCommand().equals("getEnvironmentCardsInHand")) {
+                getEnvironmentCardsInHand(action.getPlayerIdx());
+            } else if (action.getCommand().equals("getFrozenCardsOnTable")) {
+                getFrozenCardsOnTable();
             }
         }
 
@@ -207,7 +215,6 @@ public class Game {
 
             // Place the Minion on the board
             board.row[rowIndex].elems.add((Minion)(currPlayer.getHand().remove(index)));
-
         }
     }
 
@@ -252,6 +259,37 @@ public class Game {
         } else {
             successPrinter.printPlayerHero(player2, output);
         }
+    }
+
+    /**
+     * Gets the Card at position [x, y] from the board
+     * @param x row
+     * @param y column
+     */
+    public void getCardAtPosition(int x, int y) {
+        if (!erorrPrinter.errorGetCardAtPosition(board, x, y, output)) {
+            successPrinter.printCardAtPosition(board, x, y, output);
+        }
+    }
+
+    public void getPlayerMana(int playerIdx) {
+        if (playerIdx == 1) {
+            successPrinter.printPlayerMana(player1, output);
+        } else {
+            successPrinter.printPlayerMana(player2, output);
+        }
+    }
+
+    public void getEnvironmentCardsInHand(int playerIdx) {
+        if (playerIdx == 1) {
+            successPrinter.printEnvironmentCardInHand(player1, output);
+        } else {
+            successPrinter.printEnvironmentCardInHand(player2, output);
+        }
+    }
+
+    public void getFrozenCardsOnTable() {
+        successPrinter.printFrozenCardsOnTable(board, output);
     }
 
     /* Getters and Setters*/

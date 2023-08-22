@@ -47,7 +47,7 @@ public class ErrorPrinter {
      * Helper to errorPlaceCard() method
      * @param message the specific error
      */
-    public void printErrorPlaceCard(ArrayNode output, int index, String message) {
+    private void printErrorPlaceCard(ArrayNode output, int index, String message) {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "placeCard");
         msg.put("handIdx", index);
@@ -56,4 +56,22 @@ public class ErrorPrinter {
         output.add(msg);
     }
 
+    /**
+     * @return true if there is an error, false if there is no error
+     */
+    public boolean errorGetCardAtPosition(Board board, int x, int y, ArrayNode output) {
+        if (board.row[x].elems.size() <= y) {
+            printErrorGetCardAtPosition(x, y, output);
+            return true;
+        }
+        return false;
+    }
+
+    private void printErrorGetCardAtPosition(int x, int y, ArrayNode output) {
+        ObjectNode msg = mapper.createObjectNode();
+        msg.put("command", "getCardAtPosition");
+        msg.put("x", x);
+        msg.put("y", y);
+        msg.put("output", "No card available at that position.");
+    }
 }
