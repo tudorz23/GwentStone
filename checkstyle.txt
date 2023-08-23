@@ -89,13 +89,14 @@ Starting audit...
 [ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:140:55: Parameter attackedY should be final. [FinalParameters]
 [ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:140:70: Parameter output should be final. [FinalParameters]
 [ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:141:72: '3' is a magic number. [MagicNumber]
-[ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:167:25: '3' is a magic number. [MagicNumber]
-[ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:184:43: Parameter output should be final. [FinalParameters]
-[ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:184:61: Parameter attackerX should be final. [FinalParameters]
-[ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:184:76: Parameter attackerY should be final. [FinalParameters]
-[ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:185:40: Parameter attackedX should be final. [FinalParameters]
-[ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:185:55: Parameter attackedY should be final. [FinalParameters]
-[ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:185:70: Parameter message should be final. [FinalParameters]
+[ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:167: Line has trailing spaces. [RegexpSingleline]
+[ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:168: Line is longer than 100 characters (found 104). [LineLength]
+[ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:181:43: Parameter output should be final. [FinalParameters]
+[ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:181:61: Parameter attackerX should be final. [FinalParameters]
+[ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:181:76: Parameter attackerY should be final. [FinalParameters]
+[ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:182:40: Parameter attackedX should be final. [FinalParameters]
+[ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:182:55: Parameter attackedY should be final. [FinalParameters]
+[ERROR] /home/student/Documents/obiecte/GwentStone/./src/printers/ErrorPrinter.java:182:70: Parameter message should be final. [FinalParameters]
 [ERROR] /home/student/Documents/obiecte/GwentStone/./src/main/Tudor.java:13:1: Utility classes should not have a public or default constructor. [HideUtilityClassConstructor]
 [ERROR] /home/student/Documents/obiecte/GwentStone/./src/main/Tudor.java:14:5: Missing a Javadoc comment. [MissingJavadocMethod]
 [ERROR] /home/student/Documents/obiecte/GwentStone/./src/main/Tudor.java:14:29: Parameter args should be final. [FinalParameters]
@@ -443,4 +444,4 @@ Starting audit...
 [ERROR] /home/student/Documents/obiecte/GwentStone/./src/cards/minion/Minion.java:82:38: '+' should be on a new line. [OperatorWrap]
 [ERROR] /home/student/Documents/obiecte/GwentStone/./src/cards/minion/Minion.java:83:38: '+' should be on a new line. [OperatorWrap]
 Audit done.
-Checkstyle ends with 443 errors.
+Checkstyle ends with 444 errors.

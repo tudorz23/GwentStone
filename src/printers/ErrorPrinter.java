@@ -157,20 +157,15 @@ public class ErrorPrinter {
             return true;
         }
 
-        // Check if enemy has tanks on the table
-        int enemyRow1;
-        int enemyRow2;
-
+        // Check if enemy has tanks on the front row.
+        int enemyFrontRow;
         if (player.getIndex() == 1) {
-            enemyRow1 = 0;
-            enemyRow2 = 1;
+            enemyFrontRow = 1;
         } else {
-            enemyRow1 = 2;
-            enemyRow2 = 3;
+            enemyFrontRow = 2;
         }
 
-        if ((board.row[enemyRow1].hasTank() || board.row[enemyRow2].hasTank())
-                && !board.row[attackedX].elems.get(attackedY).isTank()) {
+        if (board.row[enemyFrontRow].hasTank() && !board.row[attackedX].elems.get(attackedY).isTank()) {
             printErrorCardUsesAttack(output, attackerX, attackerY, attackedX, attackedY,
                                     "Attacked card is not of type 'Tank'.");
             return true;
