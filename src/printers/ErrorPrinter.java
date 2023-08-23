@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import gameplay.Board;
 import gameplay.Player;
-
 import static utils.Constants.MAX_ROW_SIZE;
 
 public class ErrorPrinter {

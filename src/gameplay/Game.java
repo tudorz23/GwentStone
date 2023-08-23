@@ -1,6 +1,5 @@
 package gameplay;
 
-import cards.Card;
 import cards.environment.Environment;
 import cards.hero.Hero;
 import cards.minion.Minion;
@@ -30,6 +29,7 @@ public class Game {
     public ArrayNode output;
     private ErrorPrinter errorPrinter = new ErrorPrinter();
     private SuccessPrinter successPrinter = new SuccessPrinter();
+    private int totalGames;
 
 
     /* Constructor */
@@ -38,8 +38,7 @@ public class Game {
         this.player2 = new Player(2);
         this.input = input;
         this.output = (new ObjectMapper()).createArrayNode();
-        //this.board = new Board();
-        //this.round = 0;
+        this.totalGames = 0;
     }
 
     /**
@@ -115,6 +114,7 @@ public class Game {
         for (GameInput game : input.getGames()) {
             // Make the initial settings to start a mini-game
             prepareMiniGame(game.getStartGame());
+            totalGames++;
             playGame(game);
         }
     }
@@ -164,6 +164,12 @@ public class Game {
                         action.getCardAttacker().getY());
             } else if (action.getCommand().equals("useHeroAbility")) {
                 useHeroAbility(action.getAffectedRow());
+            } else if (action.getCommand().equals("getTotalGamesPlayed")) {
+                getTotalGamesPlayed();
+            } else if (action.getCommand().equals("getPlayerOneWins")) {
+                getPlayerOneWins();
+            } else if (action.getCommand().equals("getPlayerTwoWins")) {
+                getPlayerTwoWins();
             }
         }
     }
@@ -468,6 +474,20 @@ public class Game {
         successPrinter.printFrozenCardsOnTable(board, output);
     }
 
+    /* *** Statistics command methods begin here. *** */
+
+    public void getTotalGamesPlayed() {
+        successPrinter.printTotalGamesPlayed(totalGames, output);
+    }
+
+    public void getPlayerOneWins() {
+        successPrinter.printPlayerWins(player1, output);
+    }
+
+    public void getPlayerTwoWins() {
+        successPrinter.printPlayerWins(player2, output);
+    }
+
     /* Getters and Setters */
     public Player getPlayer1() {
         return player1;
@@ -492,5 +512,11 @@ public class Game {
     }
     public void setBoard(Board board) {
         this.board = board;
+    }
+    public int getTotalGames() {
+        return totalGames;
+    }
+    public void setTotalGames(int totalGames) {
+        this.totalGames = totalGames;
     }
 }

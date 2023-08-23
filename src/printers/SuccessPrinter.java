@@ -8,9 +8,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import gameplay.Board;
 import gameplay.Player;
-
 import java.util.ArrayList;
-
 import static utils.Constants.ROWS;
 
 public class SuccessPrinter {
@@ -149,6 +147,29 @@ public class SuccessPrinter {
         } else {
             msg.put("gameEnded", "Player two killed the enemy hero.");
         }
+
+        output.add(msg);
+    }
+
+    public void printTotalGamesPlayed(int gamesPlayed, ArrayNode output) {
+        ObjectNode msg = mapper.createObjectNode();
+
+        msg.put("command", "getTotalGamesPlayed");
+        msg.put("output", gamesPlayed);
+
+        output.add(msg);
+    }
+
+    public void printPlayerWins(Player player, ArrayNode output) {
+        ObjectNode msg = mapper.createObjectNode();
+
+        if (player.getIndex() == 1) {
+            msg.put("command", "getPlayerOneWins");
+        } else {
+            msg.put("command", "getPlayerTwoWins");
+        }
+
+        msg.put("output", player.getWins());
 
         output.add(msg);
     }
