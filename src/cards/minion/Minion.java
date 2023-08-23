@@ -57,7 +57,7 @@ public class Minion extends Card {
     public void setFrozen(boolean frozen) {
         this.frozen = frozen;
     }
-    public boolean isUsedTurn() {
+    public boolean getUsedTurn() {
         return usedTurn;
     }
     public void setUsedTurn(boolean usedTurn) {

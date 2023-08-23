@@ -84,6 +84,9 @@ public class SuccessPrinter {
         output.add(msg);
     }
 
+    /**
+     * Prints the card from the board at the position specified.
+     */
     public void printCardAtPosition(Board board, int x, int y, ArrayNode output) {
         Card card = board.row[x].elems.get(y);
 

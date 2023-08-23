@@ -1,5 +1,6 @@
 package gameplay;
 
+import cards.environment.Environment;
 import cards.minion.Minion;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -24,7 +25,7 @@ public class Game {
     private int turnChanges; // when it becomes 2, a new round begins
     public Input input;
     public ArrayNode output;
-    private ErrorPrinter erorrPrinter = new ErrorPrinter();
+    private ErrorPrinter errorPrinter = new ErrorPrinter();
     private SuccessPrinter successPrinter = new SuccessPrinter();
 
 
@@ -38,7 +39,6 @@ public class Game {
         //this.round = 0;
     }
 
-
     /**
      * Completes the packDeck and nrDecks fields for both Player objects.
      */
@@ -51,7 +51,6 @@ public class Game {
         player1.setNrDecks(input.getPlayerOneDecks().getNrDecks());
         player2.setNrDecks(input.getPlayerTwoDecks().getNrDecks());
     }
-
 
     /**
      * Sets the current deck for each player.
@@ -102,7 +101,6 @@ public class Game {
         round = 0;
     }
 
-
     /**
      * This shall be the starting point of the game.
      */
@@ -150,6 +148,8 @@ public class Game {
                 getEnvironmentCardsInHand(action.getPlayerIdx());
             } else if (action.getCommand().equals("getFrozenCardsOnTable")) {
                 getFrozenCardsOnTable();
+            } else if (action.getCommand().equals("useEnvironmentCard")) {
+                useEnvironmentCard(action.getHandIdx(), action.getAffectedRow());
             }
         }
 
@@ -201,23 +201,40 @@ public class Game {
         }
     }
 
+    /* *** In-game actions begin here. *** */
     /**
      * Places a Card from player's hand on the board.
      * @param index position of the card in player's hand
      */
     public void placeCard(int index) {
-        if (!erorrPrinter.errorPlaceCard(currPlayer, board, index, output)) {
-            // Row where the card should be placed
-            int rowIndex = currPlayer.getRowToPlace(index);
-
-            // Spend player's mana for the operation
-            currPlayer.decreaseMana(currPlayer.getHand().get(index).getMana());
-
-            // Place the Minion on the board
-            board.row[rowIndex].elems.add((Minion)(currPlayer.getHand().remove(index)));
+        if (errorPrinter.errorPlaceCard(currPlayer, board, index, output)) {
+            return;
         }
+        // Row where the card should be placed
+        int rowIndex = currPlayer.getRowToPlace(index);
+
+        // Spend player's mana for the operation
+        currPlayer.decreaseMana(currPlayer.getHand().get(index).getMana());
+
+        // Place the Minion on the board
+        board.row[rowIndex].elems.add((Minion)(currPlayer.getHand().remove(index)));
     }
 
+    public void useEnvironmentCard(int handIdx, int affectedRow) {
+        if (errorPrinter.errorUseEnvironmentCard(currPlayer, board, handIdx, affectedRow, output)) {
+            return;
+        }
+        // Spend player mana
+        currPlayer.decreaseMana(currPlayer.getHand().get(handIdx).getMana());
+
+        // Use ability
+        ((Environment)currPlayer.getHand().get(handIdx)).useAbility(board, affectedRow);
+
+        // Remove the card from the player's hand
+        currPlayer.getHand().remove(handIdx);
+    }
+
+    /* *** Debug commands methods begin here. *** */
     /**
      * Prints the Card from player [playerIdx] 's hand
      * @param playerIdx index of the player whose hand should be printed.
@@ -249,10 +266,16 @@ public class Game {
         successPrinter.printCardsOnTable(board, output);
     }
 
+    /**
+     * Prints the index of the player at turn.
+     */
     public void getPlayerTurn() {
         successPrinter.printPlayerTurn(currPlayer.getIndex(), output);
     }
 
+    /**
+     * Prints the Hero card of the player specified by the index.
+     */
     public void getPlayerHero(int playerIdx) {
         if (playerIdx == 1) {
             successPrinter.printPlayerHero(player1, output);
@@ -267,11 +290,14 @@ public class Game {
      * @param y column
      */
     public void getCardAtPosition(int x, int y) {
-        if (!erorrPrinter.errorGetCardAtPosition(board, x, y, output)) {
+        if (!errorPrinter.errorGetCardAtPosition(board, x, y, output)) {
             successPrinter.printCardAtPosition(board, x, y, output);
         }
     }
 
+    /**
+     * Prints the mana of a player.
+     */
     public void getPlayerMana(int playerIdx) {
         if (playerIdx == 1) {
             successPrinter.printPlayerMana(player1, output);
@@ -280,6 +306,9 @@ public class Game {
         }
     }
 
+    /**
+     * Prints all the Environment Cards from a player's hand.
+     */
     public void getEnvironmentCardsInHand(int playerIdx) {
         if (playerIdx == 1) {
             successPrinter.printEnvironmentCardInHand(player1, output);
@@ -288,11 +317,14 @@ public class Game {
         }
     }
 
+    /**
+     * Prints all the frozen cards from the board.
+     */
     public void getFrozenCardsOnTable() {
         successPrinter.printFrozenCardsOnTable(board, output);
     }
 
-    /* Getters and Setters*/
+    /* Getters and Setters */
     public Player getPlayer1() {
         return player1;
     }

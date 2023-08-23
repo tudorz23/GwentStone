@@ -17,16 +17,16 @@ public class HeartHound extends Environment {
 
     @Override
     public void useAbility(Board board, int index) {
-        int mirror = ROWS - index;
+        int mirror = 3 - index;
 
-        // get the minion with the highest health from that row
+        // Get the minion with the highest health from that row
         Minion minion = Collections.max(board.row[index].elems,
                 Comparator.comparing(Minion::getHealth));
 
-        // add it to the mirrored row
+        // Add it to the mirrored row
         board.row[mirror].elems.add(minion);
 
-        // remove it from the original row
+        // Remove it from the original row
         board.row[index].elems.remove(minion);
     }
 }
