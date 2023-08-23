@@ -174,6 +174,7 @@ public class ErrorPrinter {
         return false;
     }
 
+
     /**
      * Helper to errorCardUsesAttack() method.
      * @param message the error message

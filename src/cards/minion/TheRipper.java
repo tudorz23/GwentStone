@@ -11,6 +11,7 @@ public class TheRipper extends SpecialMinion {
         super(mana, description, colors, name, health, attack);
     }
 
+
     @Override // Weak Knees ability
     public void useAbility(Minion minion) {
         int tmp = minion.getAttack();

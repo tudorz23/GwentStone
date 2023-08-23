@@ -294,6 +294,7 @@ public class Game {
         attackerCard.setUsedTurn(true);
     }
 
+
     /**
      * Implements the usage of ability of a Card (Special Minion).
      */
