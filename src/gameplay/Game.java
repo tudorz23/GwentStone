@@ -129,47 +129,31 @@ public class Game {
 
         // Iterate through the actions
         for (ActionsInput action : game.getActions()) {
-            if (action.getCommand().equals("endPlayerTurn")) {
-                changeTurn();
-            } else if (action.getCommand().equals("placeCard")) {
-                placeCard(action.getHandIdx());
-            } else if (action.getCommand().equals("getCardsInHand")) {
-                getCardsInHand(action.getPlayerIdx());
-            } else if (action.getCommand().equals("getPlayerDeck")) {
-                getPlayerDeck(action.getPlayerIdx());
-            } else if (action.getCommand().equals("getCardsOnTable")) {
-                getCardsOnTable();
-            } else if (action.getCommand().equals("getPlayerTurn")) {
-                getPlayerTurn();
-            } else if (action.getCommand().equals("getPlayerHero")) {
-                getPlayerHero(action.getPlayerIdx());
-            } else if (action.getCommand().equals("getCardAtPosition")) {
-                getCardAtPosition(action.getX(), action.getY());
-            } else if (action.getCommand().equals("getPlayerMana")) {
-                getPlayerMana(action.getPlayerIdx());
-            } else if (action.getCommand().equals("getEnvironmentCardsInHand")) {
-                getEnvironmentCardsInHand(action.getPlayerIdx());
-            } else if (action.getCommand().equals("getFrozenCardsOnTable")) {
-                getFrozenCardsOnTable();
-            } else if (action.getCommand().equals("useEnvironmentCard")) {
-                useEnvironmentCard(action.getHandIdx(), action.getAffectedRow());
-            } else if (action.getCommand().equals("cardUsesAttack")) {
-                cardUsesAttack(action.getCardAttacker().getX(), action.getCardAttacker().getY(),
-                        action.getCardAttacked().getX(), action.getCardAttacked().getY());
-            } else if (action.getCommand().equals("cardUsesAbility")) {
-                cardUsesAbility(action.getCardAttacker().getX(), action.getCardAttacker().getY(),
-                        action.getCardAttacked().getX(), action.getCardAttacked().getY());
-            } else if (action.getCommand().equals("useAttackHero")) {
-                useAttackHero(action.getCardAttacker().getX(),
+            switch (action.getCommand()) {
+                case "endPlayerTurn" -> changeTurn();
+                case "placeCard" -> placeCard(action.getHandIdx());
+                case "getCardsInHand" -> getCardsInHand(action.getPlayerIdx());
+                case "getPlayerDeck" -> getPlayerDeck(action.getPlayerIdx());
+                case "getCardsOnTable" -> getCardsOnTable();
+                case "getPlayerTurn" -> getPlayerTurn();
+                case "getPlayerHero" -> getPlayerHero(action.getPlayerIdx());
+                case "getCardAtPosition" -> getCardAtPosition(action.getX(), action.getY());
+                case "getPlayerMana" -> getPlayerMana(action.getPlayerIdx());
+                case "getEnvironmentCardsInHand" -> getEnvironmentCardsInHand(action.getPlayerIdx());
+                case "getFrozenCardsOnTable" -> getFrozenCardsOnTable();
+                case "useEnvironmentCard" -> useEnvironmentCard(action.getHandIdx(), action.getAffectedRow());
+                case "cardUsesAttack" -> cardUsesAttack(action.getCardAttacker().getX(),
+                        action.getCardAttacker().getY(), action.getCardAttacked().getX(),
+                        action.getCardAttacked().getY());
+                case "cardUsesAbility" -> cardUsesAbility(action.getCardAttacker().getX(),
+                        action.getCardAttacker().getY(), action.getCardAttacked().getX(),
+                        action.getCardAttacked().getY());
+                case "useAttackHero" -> useAttackHero(action.getCardAttacker().getX(),
                         action.getCardAttacker().getY());
-            } else if (action.getCommand().equals("useHeroAbility")) {
-                useHeroAbility(action.getAffectedRow());
-            } else if (action.getCommand().equals("getTotalGamesPlayed")) {
-                getTotalGamesPlayed();
-            } else if (action.getCommand().equals("getPlayerOneWins")) {
-                getPlayerOneWins();
-            } else if (action.getCommand().equals("getPlayerTwoWins")) {
-                getPlayerTwoWins();
+                case "useHeroAbility" -> useHeroAbility(action.getAffectedRow());
+                case "getTotalGamesPlayed" -> getTotalGamesPlayed();
+                case "getPlayerOneWins" -> getPlayerOneWins();
+                case "getPlayerTwoWins" -> getPlayerTwoWins();
             }
         }
     }
