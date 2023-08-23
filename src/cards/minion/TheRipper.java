@@ -16,5 +16,8 @@ public class TheRipper extends SpecialMinion {
         int tmp = minion.getAttack();
         tmp -= 2;
         minion.setAttack(tmp);
+
+        if (minion.getAttack() < 0)
+            minion.setAttack(0);
     }
 }

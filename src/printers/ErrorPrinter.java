@@ -157,20 +157,15 @@ public class ErrorPrinter {
             return true;
         }
 
-        // Check if enemy has tanks on the table
-        int enemyRow1;
-        int enemyRow2;
-
+        // Check if enemy has tanks on the front row.
+        int enemyFrontRow;
         if (player.getIndex() == 1) {
-            enemyRow1 = 0;
-            enemyRow2 = 1;
+            enemyFrontRow = 1;
         } else {
-            enemyRow1 = 2;
-            enemyRow2 = 3;
+            enemyFrontRow = 2;
         }
 
-        if ((board.row[enemyRow1].hasTank() || board.row[enemyRow2].hasTank())
-                && !board.row[attackedX].elems.get(attackedY).isTank()) {
+        if (board.row[enemyFrontRow].hasTank() && !board.row[attackedX].elems.get(attackedY).isTank()) {
             printErrorCardUsesAttack(output, attackerX, attackerY, attackedX, attackedY,
                                     "Attacked card is not of type 'Tank'.");
             return true;
@@ -187,6 +182,87 @@ public class ErrorPrinter {
                                        int attackedX, int attackedY, String message) {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "cardUsesAttack");
+
+        ObjectNode cardAttacker = mapper.createObjectNode();
+        cardAttacker.put("x", attackerX);
+        cardAttacker.put("y", attackerY);
+        msg.set("cardAttacker", cardAttacker);
+
+        ObjectNode cardAttacked = mapper.createObjectNode();
+        cardAttacked.put("x", attackedX);
+        cardAttacked.put("y", attackedY);
+        msg.set("cardAttacked", cardAttacked);
+
+        msg.put("error", message);
+
+        output.add(msg);
+    }
+
+    /**
+     * Checks for errors during cardUsesAbility() operation.
+     * @return true if there is an error, false if there is not
+     */
+    public boolean errorCardUsesAbility(Player player, Board board, int attackerX, int attackerY,
+                                       int attackedX, int attackedY, ArrayNode output) {
+        if (board.row[attackerX].elems.get(attackerY).isFrozen()) {
+            printErrorCardUsesAbility(output, attackerX, attackerY, attackedX, attackedY,
+                                    "Attacker card is frozen.");
+            return true;
+        }
+
+        if (board.row[attackerX].elems.get(attackerY).getUsedTurn()) {
+            printErrorCardUsesAbility(output, attackerX, attackerY, attackedX, attackedY,
+                                    "Attacker card has already attacked this turn.");
+            return true;
+        }
+
+        Minion attackerCard = board.row[attackerX].elems.get(attackerY);
+        Minion attackedCard = board.row[attackedX].elems.get(attackedY);
+
+        if (attackerCard.getName().equals("Disciple")) {
+            if ((player.getIndex() == 1 && (attackedX == 0 || attackedX == 1))
+                    || (player.getIndex() == 2 && (attackedX == 2 || attackedX == 3))) {
+                printErrorCardUsesAbility(output, attackerX, attackerY, attackedX, attackedY,
+                                    "Attacked card does not belong to the current player.");
+                return true;
+            }
+        }
+
+        if (attackerCard.getName().equals("The Ripper") || attackerCard.getName().equals("Miraj")
+            || attackerCard.getName().equals("The Cursed One")) {
+            if ((player.getIndex() == 1 && (attackedX == 2 || attackedX == 3))
+                    || (player.getIndex() == 2 && (attackedX == 0 || attackedX == 1))) {
+                printErrorCardUsesAbility(output, attackerX, attackerY, attackedX, attackedY,
+                                    "Attacked card does not belong to the enemy.");
+                return true;
+            }
+
+            // Check if enemy has tanks on the front row.
+            int enemyFrontRow;
+            if (player.getIndex() == 1) {
+                enemyFrontRow = 1;
+            } else {
+                enemyFrontRow = 2;
+            }
+
+            if (board.row[enemyFrontRow].hasTank() && !attackedCard.isTank()) {
+                printErrorCardUsesAbility(output, attackerX, attackerY, attackedX, attackedY,
+                        "Attacked card is not of type 'Tank'.");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Helper to errorCardUsesAbility() method
+     * @param message the error message
+     */
+    private void printErrorCardUsesAbility(ArrayNode output, int attackerX, int attackerY,
+                                       int attackedX, int attackedY, String message) {
+        ObjectNode msg = mapper.createObjectNode();
+        msg.put("command", "cardUsesAbility");
 
         ObjectNode cardAttacker = mapper.createObjectNode();
         cardAttacker.put("x", attackerX);

@@ -3,6 +3,7 @@ package gameplay;
 import cards.Card;
 import cards.environment.Environment;
 import cards.minion.Minion;
+import cards.minion.SpecialMinion;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import fileio.ActionsInput;
@@ -154,6 +155,9 @@ public class Game {
             } else if (action.getCommand().equals("cardUsesAttack")) {
                 cardUsesAttack(action.getCardAttacker().getX(), action.getCardAttacker().getY(),
                         action.getCardAttacked().getX(), action.getCardAttacked().getY());
+            } else if (action.getCommand().equals("cardUsesAbility")) {
+                cardUsesAbility(action.getCardAttacker().getX(), action.getCardAttacker().getY(),
+                        action.getCardAttacked().getX(), action.getCardAttacked().getY());
             }
         }
     }
@@ -227,6 +231,7 @@ public class Game {
         }
     }
 
+
     /* *** In-game actions begin here. *** */
     /**
      * Places a Card from player's hand on the board.
@@ -265,6 +270,9 @@ public class Game {
         currPlayer.getHand().remove(handIdx);
     }
 
+    /**
+     * Implements the attack of a Card.
+     */
     public void cardUsesAttack(int attackerX, int attackerY, int attackedX, int attackedY) {
         if (errorPrinter.errorCardUsesAttack(currPlayer, board, attackerX, attackerY,
                                             attackedX, attackedY, output)) {
@@ -285,6 +293,30 @@ public class Game {
         // Mark attacker Card as used during this turn
         attackerCard.setUsedTurn(true);
     }
+
+    /**
+     * Implements the usage of ability of a Card (Special Minion).
+     */
+    public void cardUsesAbility(int attackerX, int attackerY, int attackedX, int attackedY) {
+        if (errorPrinter.errorCardUsesAbility(currPlayer, board, attackerX, attackerY,
+                                            attackedX, attackedY, output)) {
+            return;
+        }
+
+        Minion attackerCard = board.row[attackerX].elems.get(attackerY);
+        Minion attackedCard = board.row[attackedX].elems.get(attackedY);
+
+        ((SpecialMinion) attackerCard).useAbility(attackedCard);
+
+        // Check if attacked minion is dead
+        if (attackedCard.getHealth() <= 0) {
+            board.row[attackedX].elems.remove(attackedCard);
+        }
+
+        // Mark attacker Card as used during this turn
+        attackerCard.setUsedTurn(true);
+    }
+
 
     /* *** Debug commands methods begin here. *** */
     /**
