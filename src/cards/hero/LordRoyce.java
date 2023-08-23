@@ -21,9 +21,9 @@ public class LordRoyce extends Hero {
                 Comparator.comparing(Minion::getAttack));
 
         // TODO: nu stiu daca merge si asa
-        // minion.setFrozen(true);
+         minion.setFrozen(true);
 
-        int pos = board.row[index].elems.indexOf(minion);
-        board.row[index].elems.get(pos).setFrozen(true);
+//        int pos = board.row[index].elems.indexOf(minion);
+//        board.row[index].elems.get(pos).setFrozen(true);
     }
 }

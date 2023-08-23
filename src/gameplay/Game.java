@@ -2,6 +2,7 @@ package gameplay;
 
 import cards.Card;
 import cards.environment.Environment;
+import cards.hero.Hero;
 import cards.minion.Minion;
 import cards.minion.SpecialMinion;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -158,6 +159,11 @@ public class Game {
             } else if (action.getCommand().equals("cardUsesAbility")) {
                 cardUsesAbility(action.getCardAttacker().getX(), action.getCardAttacker().getY(),
                         action.getCardAttacked().getX(), action.getCardAttacked().getY());
+            } else if (action.getCommand().equals("useAttackHero")) {
+                useAttackHero(action.getCardAttacker().getX(),
+                        action.getCardAttacker().getY());
+            } else if (action.getCommand().equals("useHeroAbility")) {
+                useHeroAbility(action.getAffectedRow());
             }
         }
     }
@@ -188,6 +194,8 @@ public class Game {
                 }
             }
         }
+        // set Used turn for Hero to false
+        currPlayer.getHero().setUsedTurn(false);
 
         // Change currPlayer
         if (currPlayer == player1) {
@@ -294,7 +302,6 @@ public class Game {
         attackerCard.setUsedTurn(true);
     }
 
-
     /**
      * Implements the usage of ability of a Card (Special Minion).
      */
@@ -318,6 +325,58 @@ public class Game {
         attackerCard.setUsedTurn(true);
     }
 
+    /**
+     * Implements the attack on the enemy's Hero
+     */
+    public void useAttackHero(int attackerX, int attackerY) {
+        Hero enemyHero;
+        if (currPlayer.getIndex() == 1) {
+            enemyHero = player2.getHero();
+        } else {
+            enemyHero = player1.getHero();
+        }
+
+        if (errorPrinter.errorUseAttackHero(currPlayer, board, enemyHero, attackerX, attackerY,
+                                            output)) {
+            return;
+        }
+
+        Minion attackerCard = board.row[attackerX].elems.get(attackerY);
+
+        // Decrease Hero's health
+        enemyHero.setHealth(enemyHero.getHealth() - attackerCard.getAttack());
+
+        // Check if enemy's Hero is dead
+        if (enemyHero.getHealth() <= 0) {
+            // Determine the winner
+            int winnerIdx = currPlayer.getIndex();
+
+            successPrinter.printWinner(winnerIdx, output);
+            currPlayer.setWins(currPlayer.getWins() + 1);
+        }
+
+        // Mark attacker Card as used during this turn
+        attackerCard.setUsedTurn(true);
+    }
+
+    /**
+     * Implements the usage of Hero's ability
+     */
+    public void useHeroAbility(int affectedRow) {
+        if (errorPrinter.errorUseHeroAbility(currPlayer, board, affectedRow, output)) {
+            return;
+        }
+
+        Hero hero = currPlayer.getHero();
+
+        // Spend player mana
+        currPlayer.decreaseMana(hero.getMana());
+
+        hero.useAbility(board, affectedRow);
+
+        // Mark hero as used during this turn
+        hero.setUsedTurn(true);
+    }
 
     /* *** Debug commands methods begin here. *** */
     /**

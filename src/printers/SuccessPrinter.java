@@ -141,6 +141,18 @@ public class SuccessPrinter {
         output.add(msg);
     }
 
+    public void printWinner(int winnerIdx, ArrayNode output) {
+        ObjectNode msg = mapper.createObjectNode();
+
+        if (winnerIdx == 1) {
+            msg.put("gameEnded", "Player one killed the enemy hero.");
+        } else {
+            msg.put("gameEnded", "Player two killed the enemy hero.");
+        }
+
+        output.add(msg);
+    }
+
     /* Helpers for printing Cards in JSON format. */
     /**
      * Prints an ArrayList of Card in JSON format

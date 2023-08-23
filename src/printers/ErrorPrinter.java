@@ -1,5 +1,6 @@
 package printers;
 
+import cards.hero.Hero;
 import cards.minion.Minion;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -174,7 +175,6 @@ public class ErrorPrinter {
         return false;
     }
 
-
     /**
      * Helper to errorCardUsesAttack() method.
      * @param message the error message
@@ -275,6 +275,109 @@ public class ErrorPrinter {
         cardAttacked.put("y", attackedY);
         msg.set("cardAttacked", cardAttacked);
 
+        msg.put("error", message);
+
+        output.add(msg);
+    }
+
+    /**
+     * Checks for errors during useAttackHero() operation.
+     * @return true if there is an error, false if there is not
+     */
+    public boolean errorUseAttackHero(Player player, Board board, Hero enemyHero,
+                                      int attackerX, int attackerY, ArrayNode output) {
+        Minion attackerCard = board.row[attackerX].elems.get(attackerY);
+
+        if (attackerCard.isFrozen()) {
+            printErrorUseAttackHero(output, attackerX, attackerY, "Attacker card is frozen.");
+            return true;
+        }
+
+        if (attackerCard.getUsedTurn()) {
+            printErrorUseAttackHero(output, attackerX, attackerY,
+                            "Attacker card has already attacked this turn.");
+            return true;
+        }
+
+        // Check if enemy has tanks on the front row.
+        int enemyFrontRow;
+        if (player.getIndex() == 1) {
+            enemyFrontRow = 1;
+        } else {
+            enemyFrontRow = 2;
+        }
+
+        if (board.row[enemyFrontRow].hasTank()) {
+            printErrorUseAttackHero(output, attackerX, attackerY, "Attacked card is not of type 'Tank'.");
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Helper to errorUseAttackHero() method
+     * @param message the error message
+     */
+    private void printErrorUseAttackHero(ArrayNode output, int attackerX, int attackerY, String message) {
+        ObjectNode msg = mapper.createObjectNode();
+        msg.put("command", "useAttackHero");
+
+        ObjectNode cardAttacker = mapper.createObjectNode();
+        cardAttacker.put("x", attackerX);
+        cardAttacker.put("y", attackerY);
+        msg.set("cardAttacker", cardAttacker);
+
+        msg.put("error", message);
+
+        output.add(msg);
+    }
+
+    /**
+     * Checks for errors during useHeroAbility() operation.
+     * @return true if there is an error, false if there is not
+     */
+    public boolean errorUseHeroAbility(Player player, Board board, int affectedRow,  ArrayNode output) {
+        Hero hero = player.getHero();
+
+        if (player.getMana() < hero.getMana()) {
+            printErrorUseHeroAbility(output, affectedRow, "Not enough mana to use hero's ability.");
+            return true;
+        }
+
+        if (hero.getUsedTurn()) {
+            printErrorUseHeroAbility(output, affectedRow, "Hero has already attacked this turn.");
+            return true;
+        }
+
+        if (hero.getName().equals("Lord Royce") || hero.getName().equals("Empress Thorina")) {
+            if ((player.getIndex() == 1 && (affectedRow == 2 || affectedRow == 3))
+                || (player.getIndex() == 2 && (affectedRow == 0 || affectedRow == 1))) {
+                printErrorUseHeroAbility(output, affectedRow, "Selected row does not belong to the enemy.");
+                return true;
+            }
+        }
+
+        if (hero.getName().equals("General Kocioraw") || hero.getName().equals("King Mudface")) {
+            if ((player.getIndex() == 1 && (affectedRow == 0 || affectedRow == 1))
+                || (player.getIndex() == 2 && (affectedRow == 2 || affectedRow == 3))) {
+                printErrorUseHeroAbility(output, affectedRow,
+                                "Selected row does not belong to the current player.");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Helper to errorUseHeroAbility() method
+     * @param message the error message
+     */
+    private void printErrorUseHeroAbility(ArrayNode output, int affectedRow, String message) {
+        ObjectNode msg = mapper.createObjectNode();
+        msg.put("command", "useHeroAbility");
+        msg.put("affectedRow", affectedRow);
         msg.put("error", message);
 
         output.add(msg);
