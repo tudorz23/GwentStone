@@ -407,6 +407,7 @@ public class Game {
         successPrinter.printPlayerTurn(currPlayer.getIndex(), output);
     }
 
+
     /**
      * Prints the Hero card of the player specified by the index.
      */
