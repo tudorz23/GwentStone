@@ -1,5 +1,6 @@
 package gameplay;
 
+import cards.Card;
 import cards.environment.Environment;
 import cards.minion.Minion;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -150,16 +151,41 @@ public class Game {
                 getFrozenCardsOnTable();
             } else if (action.getCommand().equals("useEnvironmentCard")) {
                 useEnvironmentCard(action.getHandIdx(), action.getAffectedRow());
+            } else if (action.getCommand().equals("cardUsesAttack")) {
+                cardUsesAttack(action.getCardAttacker().getX(), action.getCardAttacker().getY(),
+                        action.getCardAttacked().getX(), action.getCardAttacked().getY());
             }
         }
-
     }
 
     /**
      * Makes the necessary changes when one of the players' turn is over.
      */
     public void changeTurn() {
-        // TODO: add unfreeze functionality before this
+        // Unfreeze the frozen Cards of currPlayer and set Used turn to false
+        if (currPlayer == player1) {
+            // Unfreeze player1's frozen Cards (rows 2 and 3 on the board)
+            for (int i = 2; i <= 3; i++) {
+                for (Minion minion : board.row[i].elems) {
+                    if (minion.isFrozen()) {
+                        minion.setFrozen(false);
+                    }
+                    minion.setUsedTurn(false);
+                }
+            }
+        } else {
+            // Unfreeze player2's frozen Cards (rows 0 and 1 on the board)
+            for (int i = 0; i <= 1; i++) {
+                for (Minion minion : board.row[i].elems) {
+                    if (minion.isFrozen()) {
+                        minion.setFrozen(false);
+                    }
+                    minion.setUsedTurn(false);
+                }
+            }
+        }
+
+        // Change currPlayer
         if (currPlayer == player1) {
             currPlayer = player2;
         } else {
@@ -220,6 +246,11 @@ public class Game {
         board.row[rowIndex].elems.add((Minion)(currPlayer.getHand().remove(index)));
     }
 
+    /**
+     * Implements the usage of an Environment Card.
+     * @param handIdx position of the card in player's hand
+     * @param affectedRow board's row that will be affected by the Environment Card
+     */
     public void useEnvironmentCard(int handIdx, int affectedRow) {
         if (errorPrinter.errorUseEnvironmentCard(currPlayer, board, handIdx, affectedRow, output)) {
             return;
@@ -232,6 +263,27 @@ public class Game {
 
         // Remove the card from the player's hand
         currPlayer.getHand().remove(handIdx);
+    }
+
+    public void cardUsesAttack(int attackerX, int attackerY, int attackedX, int attackedY) {
+        if (errorPrinter.errorCardUsesAttack(currPlayer, board, attackerX, attackerY,
+                                            attackedX, attackedY, output)) {
+            return;
+        }
+
+        Minion attackerCard = board.row[attackerX].elems.get(attackerY);
+        Minion attackedCard = board.row[attackedX].elems.get(attackedY);
+
+        // Decrease attacked Card's health
+        attackedCard.setHealth(attackedCard.getHealth() - attackerCard.getAttack());
+
+        // Check if attacked Card is dead
+        if (attackedCard.getHealth() <= 0) {
+            board.row[attackedX].elems.remove(attackedCard);
+        }
+
+        // Mark attacker Card as used during this turn
+        attackerCard.setUsedTurn(true);
     }
 
     /* *** Debug commands methods begin here. *** */

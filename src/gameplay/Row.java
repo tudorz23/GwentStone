@@ -19,4 +19,17 @@ public class Row {
     public boolean isFull() {
         return elems.size() == MAX_ROW_SIZE;
     }
+
+    /**
+     * Checks if there is a tank Card on the row.
+     * @return true if there is a tank, false if there is not
+     */
+    public boolean hasTank() {
+        for (Minion minion : elems) {
+            if (minion.isTank()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

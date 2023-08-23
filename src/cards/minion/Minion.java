@@ -13,6 +13,7 @@ public class Minion extends Card {
     private int attack;
     private boolean frozen;
     private boolean usedTurn;
+    private boolean tank;
 
     /* Constructors */
     public Minion() {}
@@ -24,6 +25,7 @@ public class Minion extends Card {
         this.frozen = false;
         this.usedTurn = false;
         this.setType(3);
+        this.tank = name.equals("Goliath") || name.equals("Warden");
     }
 
     /**
@@ -62,6 +64,12 @@ public class Minion extends Card {
     }
     public void setUsedTurn(boolean usedTurn) {
         this.usedTurn = usedTurn;
+    }
+    public boolean isTank() {
+        return tank;
+    }
+    public void setTank(boolean tank) {
+        this.tank = tank;
     }
 
     @Override
