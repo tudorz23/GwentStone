@@ -9,7 +9,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import gameplay.Board;
 import gameplay.Player;
 import java.util.ArrayList;
-import static utils.Constants.ROWS;
+
+import static utils.Constants.*;
 
 public class SuccessPrinter {
     private ObjectMapper mapper = new ObjectMapper();
@@ -113,7 +114,7 @@ public class SuccessPrinter {
 
         ArrayList<Card> environmentInHand = new ArrayList<>();
         for (Card card : player.getHand()) {
-            if (card.getType() == 4) {
+            if (card.getType() == ENVIRONMENT) {
                 environmentInHand.add(card);
             }
         }
@@ -190,7 +191,7 @@ public class SuccessPrinter {
 
             printCard.put("mana", card.getMana());
 
-            if (card.getType() == 3) {
+            if (card.getType() == MINION) {
                 // Minion Card
                 printCard.put("attackDamage", ((Minion)card).getAttack());
                 printCard.put("health", ((Minion)card).getHealth());
@@ -258,7 +259,7 @@ public class SuccessPrinter {
         ObjectNode cardPrint = mapper.createObjectNode();
         cardPrint.put("mana", card.getMana());
 
-        if (card.getType() == 3) {
+        if (card.getType() == MINION) {
             // Minion Card
             cardPrint.put("attackDamage", ((Minion)card).getAttack());
             cardPrint.put("health", ((Minion)card).getHealth());
@@ -274,7 +275,7 @@ public class SuccessPrinter {
         cardPrint.set("colors", colorPrint);
         cardPrint.put("name", card.getName());
 
-        if (card.getType() == 5) {
+        if (card.getType() == HERO) {
             // Hero Card
             cardPrint.put("health", ((Hero)card).getHealth());
         }

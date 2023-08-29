@@ -13,8 +13,6 @@ public class Disciple extends SpecialMinion {
 
     @Override // God's Plan ability
     public void useAbility(Minion minion) {
-        int tmp = minion.getHealth();
-        tmp += 2;
-        minion.setHealth(tmp);
+        minion.setHealth(minion.getHealth() + 2);
     }
 }

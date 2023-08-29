@@ -1,8 +1,8 @@
 package cards.minion;
 
 import cards.Card;
-
 import java.util.ArrayList;
+import static utils.Constants.MINION;
 
 /**
  * Includes fields specific to Minions.
@@ -24,7 +24,7 @@ public class Minion extends Card {
         this.attack = attack;
         this.frozen = false;
         this.usedTurn = false;
-        this.setType(3);
+        this.setType(MINION);
         this.tank = name.equals("Goliath") || name.equals("Warden");
     }
 

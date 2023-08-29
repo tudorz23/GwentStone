@@ -26,15 +26,15 @@ public class Deck {
      */
     private Card cardDeepCopy(Card card) {
         // Create deep copies of common fields
-        String copyDescription = new String(card.getDescription());
+        // String object is immutable, so there is no need to deep-copy it
+        String copyDescription = card.getDescription();
 
         ArrayList<String> copyColors = new ArrayList<>();
         for (String color : card.getColors()) {
-            String copyOneColor = new String(color);
-            copyColors.add(copyOneColor);
+            copyColors.add(color);
         }
 
-        String copyName = new String(card.getName());
+        String copyName = card.getName();
 
         return switch (card.getName()) {
             case "The Ripper" -> new TheRipper(card.getMana(), copyDescription, copyColors,

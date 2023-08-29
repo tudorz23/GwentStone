@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import gameplay.Board;
 import gameplay.Player;
+import static utils.Constants.ENVIRONMENT;
 import static utils.Constants.MAX_ROW_SIZE;
 
 public class ErrorPrinter {
@@ -21,7 +22,7 @@ public class ErrorPrinter {
      * @param output for printing in JSON format
      */
     public boolean errorPlaceCard(Player currPlayer, Board board, int index, ArrayNode output) {
-        if (currPlayer.getHand().get(index).getType() == 4) {
+        if (currPlayer.getHand().get(index).getType() == ENVIRONMENT) {
             printErrorPlaceCard(output, index, "Cannot place environment card on table.");
             return true;
         }
@@ -86,7 +87,7 @@ public class ErrorPrinter {
      */
     public boolean errorUseEnvironmentCard(Player player, Board board, int handIdx, int affectedRow,
                                            ArrayNode output) {
-        if (player.getHand().get(handIdx).getType() != 4) {
+        if (player.getHand().get(handIdx).getType() != ENVIRONMENT) {
             printErrorUseEnvironmentCard(output, handIdx, affectedRow,
                     "Chosen card is not of type environment.");
             return true;

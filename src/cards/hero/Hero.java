@@ -4,6 +4,8 @@ import cards.Card;
 import gameplay.Board;
 import java.util.ArrayList;
 
+import static utils.Constants.HERO;
+
 /**
  * To be extended by specific heroes' classes.
  */
@@ -17,7 +19,7 @@ public class Hero extends Card {
         super(mana, description, colors, name);
         this.health = 30;
         this.usedTurn = false;
-        this.setType(5);
+        this.setType(HERO);
     }
 
     public void useAbility(Board board, int index) {}

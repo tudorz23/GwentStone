@@ -44,7 +44,7 @@ public class Converter {
     }
 
     /**
-     * Converts CardInput type to Hero type
+     * Converts CardInput type to Hero type.
      * @param cardInput Standard input from the JSON file.
      * @return Hero object (instance of a specific hero)
      */
