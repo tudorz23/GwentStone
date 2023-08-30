@@ -59,15 +59,4 @@ public class Card {
     public void setType(int row) {
         this.type = row;
     }
-
-    @Override
-    public String toString() {
-        return "Card{" +
-                "mana=" + mana +
-                ", description='" + description + '\'' +
-                ", colors=" + colors +
-                ", name='" + name + '\'' +
-                ", type=" + type +
-                '}';
-    }
 }

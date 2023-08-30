@@ -21,7 +21,8 @@ public class ErrorPrinter {
      * @param index position of the card in player's hand
      * @param output for printing in JSON format
      */
-    public boolean errorPlaceCard(Player currPlayer, Board board, int index, ArrayNode output) {
+    public boolean errorPlaceCard(final Player currPlayer, final Board board,
+                                  final int index, final ArrayNode output) {
         if (currPlayer.getHand().get(index).getType() == ENVIRONMENT) {
             printErrorPlaceCard(output, index, "Cannot place environment card on table.");
             return true;
@@ -48,7 +49,8 @@ public class ErrorPrinter {
      * Helper to errorPlaceCard() method.
      * @param message the error message
      */
-    private void printErrorPlaceCard(ArrayNode output, int index, String message) {
+    private void printErrorPlaceCard(final ArrayNode output, final int index,
+                                     final String message) {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "placeCard");
         msg.put("handIdx", index);
@@ -60,7 +62,8 @@ public class ErrorPrinter {
     /**
      * @return true if there is an error, false if there is no error
      */
-    public boolean errorGetCardAtPosition(Board board, int x, int y, ArrayNode output) {
+    public boolean errorGetCardAtPosition(final Board board, final int x, final int y,
+                                          final ArrayNode output) {
         if (board.row[x].elems.size() <= y) {
             printErrorGetCardAtPosition(x, y, output);
             return true;
@@ -71,7 +74,7 @@ public class ErrorPrinter {
     /**
      * Helper to errorGetCardAtPosition() method.
      */
-    private void printErrorGetCardAtPosition(int x, int y, ArrayNode output) {
+    private void printErrorGetCardAtPosition(final int x, final int y, final ArrayNode output) {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "getCardAtPosition");
         msg.put("x", x);
@@ -85,8 +88,9 @@ public class ErrorPrinter {
      * Checks for errors during useEnvironmentCard() operation.
      * @return true if there is an error, false if there is not
      */
-    public boolean errorUseEnvironmentCard(Player player, Board board, int handIdx, int affectedRow,
-                                           ArrayNode output) {
+    public boolean errorUseEnvironmentCard(final Player player, final Board board,
+                                           final int handIdx, final int affectedRow,
+                                           final ArrayNode output) {
         if (player.getHand().get(handIdx).getType() != ENVIRONMENT) {
             printErrorUseEnvironmentCard(output, handIdx, affectedRow,
                     "Chosen card is not of type environment.");
@@ -99,8 +103,8 @@ public class ErrorPrinter {
             return true;
         }
 
-        if ((player.getIndex() == 1 && (affectedRow != 0 && affectedRow != 1)) ||
-                (player.getIndex() == 2 && (affectedRow != 2 && affectedRow != 3))) {
+        if ((player.getIndex() == 1 && (affectedRow != 0 && affectedRow != 1))
+                || (player.getIndex() == 2 && (affectedRow != 2 && affectedRow != 3))) {
             printErrorUseEnvironmentCard(output, handIdx, affectedRow,
                     "Chosen row does not belong to the enemy.");
             return true;
@@ -123,7 +127,8 @@ public class ErrorPrinter {
      * Helper to errorUseEnvironmentCard() method.
      * @param message the error message
      */
-    private void printErrorUseEnvironmentCard(ArrayNode output, int handIdx, int affectedRow, String message) {
+    private void printErrorUseEnvironmentCard(final ArrayNode output, final int handIdx,
+                                              final int affectedRow, final String message) {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "useEnvironmentCard");
         msg.put("handIdx", handIdx);
@@ -137,8 +142,9 @@ public class ErrorPrinter {
      * Checks for errors during cardUsesAttack() operation.
      * @return true if there is an error, false if there is not
      */
-    public boolean errorCardUsesAttack(Player player, Board board, int attackerX, int attackerY,
-                                       int attackedX, int attackedY, ArrayNode output) {
+    public boolean errorCardUsesAttack(final Player player, final Board board, final int attackerX,
+                                       final int attackerY, final int attackedX,
+                                       final int attackedY, final ArrayNode output) {
         if ((player.getIndex() == 1 && (attackedX == 2 || attackedX == 3))
             || (player.getIndex() == 2 && (attackedX == 0 || attackedX == 1))) {
             printErrorCardUsesAttack(output, attackerX, attackerY, attackedX, attackedY,
@@ -179,8 +185,9 @@ public class ErrorPrinter {
      * Helper to errorCardUsesAttack() method.
      * @param message the error message
      */
-    private void printErrorCardUsesAttack(ArrayNode output, int attackerX, int attackerY,
-                                       int attackedX, int attackedY, String message) {
+    private void printErrorCardUsesAttack(final ArrayNode output, final int attackerX,
+                                          final int attackerY, final int attackedX,
+                                          final int attackedY, final String message) {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "cardUsesAttack");
 
@@ -203,8 +210,9 @@ public class ErrorPrinter {
      * Checks for errors during cardUsesAbility() operation.
      * @return true if there is an error, false if there is not
      */
-    public boolean errorCardUsesAbility(Player player, Board board, int attackerX, int attackerY,
-                                       int attackedX, int attackedY, ArrayNode output) {
+    public boolean errorCardUsesAbility(final Player player, final Board board, final int attackerX,
+                                        final int attackerY, final int attackedX,
+                                        final int attackedY, final ArrayNode output) {
         if (board.row[attackerX].elems.get(attackerY).isFrozen()) {
             printErrorCardUsesAbility(output, attackerX, attackerY, attackedX, attackedY,
                                     "Attacker card is frozen.");
@@ -260,8 +268,9 @@ public class ErrorPrinter {
      * Helper to errorCardUsesAbility() method
      * @param message the error message
      */
-    private void printErrorCardUsesAbility(ArrayNode output, int attackerX, int attackerY,
-                                       int attackedX, int attackedY, String message) {
+    private void printErrorCardUsesAbility(final ArrayNode output, final int attackerX,
+                                           final int attackerY, final int attackedX,
+                                           final int attackedY, final String message) {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "cardUsesAbility");
 
@@ -284,8 +293,8 @@ public class ErrorPrinter {
      * Checks for errors during useAttackHero() operation.
      * @return true if there is an error, false if there is not
      */
-    public boolean errorUseAttackHero(Player player, Board board, Hero enemyHero,
-                                      int attackerX, int attackerY, ArrayNode output) {
+    public boolean errorUseAttackHero(final Player player, final Board board, final int attackerX,
+                                      final int attackerY, final ArrayNode output) {
         Minion attackerCard = board.row[attackerX].elems.get(attackerY);
 
         if (attackerCard.isFrozen()) {
@@ -308,7 +317,8 @@ public class ErrorPrinter {
         }
 
         if (board.row[enemyFrontRow].hasTank()) {
-            printErrorUseAttackHero(output, attackerX, attackerY, "Attacked card is not of type 'Tank'.");
+            printErrorUseAttackHero(output, attackerX, attackerY,
+                            "Attacked card is not of type 'Tank'.");
             return true;
         }
 
@@ -319,7 +329,8 @@ public class ErrorPrinter {
      * Helper to errorUseAttackHero() method
      * @param message the error message
      */
-    private void printErrorUseAttackHero(ArrayNode output, int attackerX, int attackerY, String message) {
+    private void printErrorUseAttackHero(final ArrayNode output, final int attackerX,
+                                         final int attackerY, final String message) {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "useAttackHero");
 
@@ -337,7 +348,8 @@ public class ErrorPrinter {
      * Checks for errors during useHeroAbility() operation.
      * @return true if there is an error, false if there is not
      */
-    public boolean errorUseHeroAbility(Player player, Board board, int affectedRow,  ArrayNode output) {
+    public boolean errorUseHeroAbility(final Player player, final int affectedRow,
+                                       final ArrayNode output) {
         Hero hero = player.getHero();
 
         if (player.getMana() < hero.getMana()) {
@@ -374,7 +386,8 @@ public class ErrorPrinter {
      * Helper to errorUseHeroAbility() method
      * @param message the error message
      */
-    private void printErrorUseHeroAbility(ArrayNode output, int affectedRow, String message) {
+    private void printErrorUseHeroAbility(final ArrayNode output, final int affectedRow,
+                                          final String message) {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "useHeroAbility");
         msg.put("affectedRow", affectedRow);

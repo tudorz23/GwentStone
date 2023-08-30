@@ -9,10 +9,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import gameplay.Board;
 import gameplay.Player;
 import java.util.ArrayList;
-
 import static utils.Constants.*;
 
-public class SuccessPrinter {
+public final class SuccessPrinter {
     private ObjectMapper mapper = new ObjectMapper();
 
     /**
@@ -20,7 +19,7 @@ public class SuccessPrinter {
      * @param player Player whose hand should be printed
      * @param output for printing in JSON format
      */
-    public void printCardsInHand(Player player, ArrayNode output) {
+    public void printCardsInHand(final Player player, final ArrayNode output) {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "getCardsInHand");
         msg.put("playerIdx", player.getIndex());
@@ -34,7 +33,7 @@ public class SuccessPrinter {
      * @param player Player whose deck should be printed
      * @param output for printing in JSON format
      */
-    public void printCardsInDeck(Player player, ArrayNode output) {
+    public void printCardsInDeck(final Player player, final ArrayNode output) {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "getPlayerDeck");
         msg.put("playerIdx", player.getIndex());
@@ -47,7 +46,7 @@ public class SuccessPrinter {
      * Prints the Cards from the table.
      * @param output for printing in JSON format
      */
-    public void printCardsOnTable(Board board, ArrayNode output) {
+    public void printCardsOnTable(final Board board, final ArrayNode output) {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "getCardsOnTable");
 
@@ -63,7 +62,7 @@ public class SuccessPrinter {
     /**
      * Prints the player at turn.
      */
-    public void printPlayerTurn(int index, ArrayNode output) {
+    public void printPlayerTurn(final int index, final ArrayNode output) {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "getPlayerTurn");
         msg.put("output", index);
@@ -74,7 +73,7 @@ public class SuccessPrinter {
     /**
      * Prints the player's Hero.
      */
-    public void printPlayerHero(Player player, ArrayNode output) {
+    public void printPlayerHero(final Player player, final ArrayNode output) {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "getPlayerHero");
         msg.put("playerIdx", player.getIndex());
@@ -86,7 +85,8 @@ public class SuccessPrinter {
     /**
      * Prints the card from the board at the position specified.
      */
-    public void printCardAtPosition(Board board, int x, int y, ArrayNode output) {
+    public void printCardAtPosition(final Board board, final int x, final int y,
+                                    final ArrayNode output) {
         Card card = board.row[x].elems.get(y);
 
         ObjectNode msg = mapper.createObjectNode();
@@ -98,16 +98,22 @@ public class SuccessPrinter {
         output.add(msg);
     }
 
-    public void printPlayerMana(Player player, ArrayNode output) {
+    /**
+     * Prints the player's mana.
+     */
+    public void printPlayerMana(final Player player, final ArrayNode output) {
          ObjectNode msg = mapper.createObjectNode();
          msg.put("command", "getPlayerMana");
          msg.put("playerIdx", player.getIndex());
-         msg.put("output",player.getMana());
+         msg.put("output", player.getMana());
 
          output.add(msg);
     }
 
-    public void printEnvironmentCardInHand(Player player, ArrayNode output) {
+    /**
+     * Prints the Environment cards that the @player has in his hand.
+     */
+    public void printEnvironmentCardInHand(final Player player, final ArrayNode output) {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "getEnvironmentCardsInHand");
         msg.put("playerIdx", player.getIndex());
@@ -122,7 +128,10 @@ public class SuccessPrinter {
         output.add(msg);
     }
 
-    public void printFrozenCardsOnTable(Board board, ArrayNode output) {
+    /**
+     * Prits the frozen cards from the board.
+     */
+    public void printFrozenCardsOnTable(final Board board, final ArrayNode output) {
         ObjectNode msg = mapper.createObjectNode();
         msg.put("command", "getFrozenCardsOnTable");
 
@@ -140,7 +149,10 @@ public class SuccessPrinter {
         output.add(msg);
     }
 
-    public void printWinner(int winnerIdx, ArrayNode output) {
+    /**
+     * Prints the winning player.
+     */
+    public void printWinner(final int winnerIdx, final ArrayNode output) {
         ObjectNode msg = mapper.createObjectNode();
 
         if (winnerIdx == 1) {
@@ -152,7 +164,10 @@ public class SuccessPrinter {
         output.add(msg);
     }
 
-    public void printTotalGamesPlayed(int gamesPlayed, ArrayNode output) {
+    /**
+     * Prints the total number of games played at that moment.
+     */
+    public void printTotalGamesPlayed(final int gamesPlayed, final ArrayNode output) {
         ObjectNode msg = mapper.createObjectNode();
 
         msg.put("command", "getTotalGamesPlayed");
@@ -161,7 +176,10 @@ public class SuccessPrinter {
         output.add(msg);
     }
 
-    public void printPlayerWins(Player player, ArrayNode output) {
+    /**
+     * Prints the number of wins of the @player.
+     */
+    public void printPlayerWins(final Player player, final ArrayNode output) {
         ObjectNode msg = mapper.createObjectNode();
 
         if (player.getIndex() == 1) {
@@ -182,7 +200,7 @@ public class SuccessPrinter {
      * @param cards the card list that should be printed
      * @param message the whole object that should be written for the respective command
      */
-    public void helperPrintCardArray(ArrayList<Card> cards, ObjectNode message) {
+    public void helperPrintCardArray(final ArrayList<Card> cards, final ObjectNode message) {
         // The array of cards in JSON format
         ArrayNode cardListPrint = mapper.createArrayNode();
 
@@ -194,8 +212,8 @@ public class SuccessPrinter {
 
             if (card.getType() == MINION) {
                 // Minion Card
-                printCard.put("attackDamage", ((Minion)card).getAttack());
-                printCard.put("health", ((Minion)card).getHealth());
+                printCard.put("attackDamage", ((Minion) card).getAttack());
+                printCard.put("health", ((Minion) card).getHealth());
             }
 
             printCard.put("description", card.getDescription());
@@ -221,7 +239,7 @@ public class SuccessPrinter {
      * @param minions the card list that should be appended
      * @param rowArray ArrayNode of the current row from the board
      */
-    public void helperAppendToRowArray(ArrayList<Minion> minions, ArrayNode rowArray) {
+    public void helperAppendToRowArray(final ArrayList<Minion> minions, final ArrayNode rowArray) {
         // The array of cards in JSON format
         ArrayNode cardListPrint = mapper.createArrayNode();
 
@@ -256,14 +274,14 @@ public class SuccessPrinter {
      * @param card Card to print
      * @param message ObjectNode that the message should be appended to
      */
-    public void helperCardPrinterJson(Card card, ObjectNode message) {
+    public void helperCardPrinterJson(final Card card, final ObjectNode message) {
         ObjectNode cardPrint = mapper.createObjectNode();
         cardPrint.put("mana", card.getMana());
 
         if (card.getType() == MINION) {
             // Minion Card
-            cardPrint.put("attackDamage", ((Minion)card).getAttack());
-            cardPrint.put("health", ((Minion)card).getHealth());
+            cardPrint.put("attackDamage", ((Minion) card).getAttack());
+            cardPrint.put("health", ((Minion) card).getHealth());
         }
 
         cardPrint.put("description", card.getDescription());
@@ -278,7 +296,7 @@ public class SuccessPrinter {
 
         if (card.getType() == HERO) {
             // Hero Card
-            cardPrint.put("health", ((Hero)card).getHealth());
+            cardPrint.put("health", ((Hero) card).getHealth());
         }
 
         message.set("output", cardPrint);

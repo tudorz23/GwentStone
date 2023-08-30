@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Describes the characteristics of a player.
  */
-public class Player {
+public final class Player {
     private ArrayList<Deck> packDeck;
     private int nrDecks;
     private Deck deck;  // the deck chosen for current game
@@ -33,19 +33,19 @@ public class Player {
      */
     public int getRowToPlace(int index) {
         // Front row of player1
-        if (((Minion)(this.getHand().get(index))).getBoardRow().equals("front")
+        if (((Minion) (this.getHand().get(index))).getBoardRow().equals("front")
                 && this.getIndex() == 1) {
             return 2;
         }
 
         // Front row of player2
-        if (((Minion)(this.getHand().get(index))).getBoardRow().equals("front")
+        if (((Minion) (this.getHand().get(index))).getBoardRow().equals("front")
                 && this.getIndex() == 2) {
             return 1;
         }
 
         // Back row of player1
-        if (((Minion)(this.getHand().get(index))).getBoardRow().equals("back")
+        if (((Minion) (this.getHand().get(index))).getBoardRow().equals("back")
                 && this.getIndex() == 1) {
             return 3;
         }
@@ -108,17 +108,5 @@ public class Player {
     }
     public void setIndex(int index) {
         this.index = index;
-    }
-
-    @Override
-    public String toString() {
-        return "Player{" +
-                "packDeck=" + packDeck + "\n" +
-                ", nrDecks=" + nrDecks + "\n" +
-                ", deck=" + deck +
-                ", hand=" + hand +
-                ", wins=" + wins +
-                ", hero=" + hero +
-                '}';
     }
 }

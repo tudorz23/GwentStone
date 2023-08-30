@@ -71,16 +71,4 @@ public class Minion extends Card {
     public void setTank(boolean tank) {
         this.tank = tank;
     }
-
-    @Override
-    public String toString() {
-        return "Minion{" +
-                "mana=" + getMana() +
-                ", description=" + getDescription() +
-                ", colors=" + getColors()+
-                ", name=" + getName()+
-                ", health=" + health +
-                ", attack=" + attack +
-                '}';
-    }
 }

@@ -3,8 +3,8 @@ package cards.hero;
 import cards.Card;
 import gameplay.Board;
 import java.util.ArrayList;
-
 import static utils.Constants.HERO;
+import static utils.Constants.INITIAL_HEALTH_HERO;
 
 /**
  * To be extended by specific heroes' classes.
@@ -17,7 +17,7 @@ public class Hero extends Card {
     public Hero() {}
     public Hero(int mana, String description, ArrayList<String> colors, String name) {
         super(mana, description, colors, name);
-        this.health = 30;
+        this.health = INITIAL_HEALTH_HERO;
         this.usedTurn = false;
         this.setType(HERO);
     }
@@ -36,13 +36,5 @@ public class Hero extends Card {
     }
     public void setUsedTurn(boolean usedTurn) {
         this.usedTurn = usedTurn;
-    }
-
-    @Override
-    public String toString() {
-        return "Hero{" +
-                "health=" + health +
-                ", usedTurn=" + usedTurn +
-                '}';
     }
 }

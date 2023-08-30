@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.Random;
 
 
-public class Game {
+public final class Game {
     private Player player1;
     private Player player2;
     private Player currPlayer; // reference to the player at turn
@@ -229,7 +229,6 @@ public class Game {
         }
     }
 
-
     /* *** In-game actions begin here. *** */
     /**
      * Places a Card from player's hand on the board.
@@ -246,7 +245,7 @@ public class Game {
         currPlayer.decreaseMana(currPlayer.getHand().get(index).getMana());
 
         // Place the Minion on the board
-        board.row[rowIndex].elems.add((Minion)(currPlayer.getHand().remove(index)));
+        board.row[rowIndex].elems.add((Minion) (currPlayer.getHand().remove(index)));
     }
 
     /**
@@ -262,7 +261,7 @@ public class Game {
         currPlayer.decreaseMana(currPlayer.getHand().get(handIdx).getMana());
 
         // Use ability
-        ((Environment)currPlayer.getHand().get(handIdx)).useAbility(board, affectedRow);
+        ((Environment) currPlayer.getHand().get(handIdx)).useAbility(board, affectedRow);
 
         // Remove the card from the player's hand
         currPlayer.getHand().remove(handIdx);
@@ -326,8 +325,7 @@ public class Game {
             enemyHero = player1.getHero();
         }
 
-        if (errorPrinter.errorUseAttackHero(currPlayer, board, enemyHero, attackerX, attackerY,
-                                            output)) {
+        if (errorPrinter.errorUseAttackHero(currPlayer, board, attackerX, attackerY, output)) {
             return;
         }
 
@@ -353,7 +351,7 @@ public class Game {
      * Implements the usage of Hero's ability
      */
     private void useHeroAbility(int affectedRow) {
-        if (errorPrinter.errorUseHeroAbility(currPlayer, board, affectedRow, output)) {
+        if (errorPrinter.errorUseHeroAbility(currPlayer, affectedRow, output)) {
             return;
         }
 

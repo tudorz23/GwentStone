@@ -3,7 +3,6 @@ package cards.environment;
 import cards.minion.Minion;
 import gameplay.Board;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Firestorm extends Environment {
     /* Constructors */
