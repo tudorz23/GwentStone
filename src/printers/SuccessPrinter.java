@@ -177,7 +177,8 @@ public class SuccessPrinter {
 
     /* Helpers for printing Cards in JSON format. */
     /**
-     * Prints an ArrayList of Card in JSON format
+     * Prints an ArrayList of Cards in JSON format. Cards are of Minion and Environment
+     * types (the Hero card is never placed with other cards).
      * @param cards the card list that should be printed
      * @param message the whole object that should be written for the respective command
      */
