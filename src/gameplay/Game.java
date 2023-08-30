@@ -44,7 +44,7 @@ public class Game {
     /**
      * Completes the packDeck and nrDecks fields for both Player objects.
      */
-    public void parsePlayerDecks() {
+    private void parsePlayerDecks() {
         // Convert the input from the JSON file.
         Converter converter = new Converter();
         player1.setPackDeck(converter.convertDeck(input.getPlayerOneDecks()));
@@ -63,7 +63,7 @@ public class Game {
      * Initializes players' mana.
      * @param miniGame returned from a loop that iterates through all the mini-games
      */
-    public void prepareMiniGame(StartGameInput miniGame) {
+    private void prepareMiniGame(StartGameInput miniGame) {
         // Set the shuffleSeed (changes from one mini-game to the other)
         int shuffleSeed = miniGame.getShuffleSeed();
 
@@ -123,7 +123,7 @@ public class Game {
      * Controls the Actual gameplay.
      * @param game Current game of the loop from startGame() method
      */
-    public void playGame(GameInput game) {
+    private void playGame(GameInput game) {
         // Start the first round
         changeRound();
 
@@ -161,7 +161,7 @@ public class Game {
     /**
      * Makes the necessary changes when one of the players' turn is over.
      */
-    public void changeTurn() {
+    private void changeTurn() {
         // Unfreeze the frozen Cards of currPlayer and set Used turn to false
         if (currPlayer == player1) {
             // Unfreeze player1's frozen Cards (rows 2 and 3 on the board)
@@ -207,7 +207,7 @@ public class Game {
      * In every round, both players take a new Card in their hand from their deck
      * and gain as much mana as the round number.
      */
-    public void changeRound() {
+    private void changeRound() {
         round++;
         // Add the first card from the deck to the player's hand
         if (!player1.getDeck().getCardSet().isEmpty()) {
@@ -235,7 +235,7 @@ public class Game {
      * Places a Card from player's hand on the board.
      * @param index position of the card in player's hand
      */
-    public void placeCard(int index) {
+    private void placeCard(int index) {
         if (errorPrinter.errorPlaceCard(currPlayer, board, index, output)) {
             return;
         }
@@ -254,7 +254,7 @@ public class Game {
      * @param handIdx position of the card in player's hand
      * @param affectedRow board's row that will be affected by the Environment Card
      */
-    public void useEnvironmentCard(int handIdx, int affectedRow) {
+    private void useEnvironmentCard(int handIdx, int affectedRow) {
         if (errorPrinter.errorUseEnvironmentCard(currPlayer, board, handIdx, affectedRow, output)) {
             return;
         }
@@ -271,7 +271,7 @@ public class Game {
     /**
      * Implements the attack of a Card.
      */
-    public void cardUsesAttack(int attackerX, int attackerY, int attackedX, int attackedY) {
+    private void cardUsesAttack(int attackerX, int attackerY, int attackedX, int attackedY) {
         if (errorPrinter.errorCardUsesAttack(currPlayer, board, attackerX, attackerY,
                                             attackedX, attackedY, output)) {
             return;
@@ -295,7 +295,7 @@ public class Game {
     /**
      * Implements the usage of ability of a Card (Special Minion).
      */
-    public void cardUsesAbility(int attackerX, int attackerY, int attackedX, int attackedY) {
+    private void cardUsesAbility(int attackerX, int attackerY, int attackedX, int attackedY) {
         if (errorPrinter.errorCardUsesAbility(currPlayer, board, attackerX, attackerY,
                                             attackedX, attackedY, output)) {
             return;
@@ -318,7 +318,7 @@ public class Game {
     /**
      * Implements the attack on the enemy's Hero
      */
-    public void useAttackHero(int attackerX, int attackerY) {
+    private void useAttackHero(int attackerX, int attackerY) {
         Hero enemyHero;
         if (currPlayer.getIndex() == 1) {
             enemyHero = player2.getHero();
@@ -352,7 +352,7 @@ public class Game {
     /**
      * Implements the usage of Hero's ability
      */
-    public void useHeroAbility(int affectedRow) {
+    private void useHeroAbility(int affectedRow) {
         if (errorPrinter.errorUseHeroAbility(currPlayer, board, affectedRow, output)) {
             return;
         }
@@ -373,7 +373,7 @@ public class Game {
      * Prints the Card from player [playerIdx] 's hand
      * @param playerIdx index of the player whose hand should be printed.
      */
-    public void getCardsInHand(int playerIdx) {
+    private void getCardsInHand(int playerIdx) {
         if (playerIdx == 1) {
             successPrinter.printCardsInHand(player1, output);
         } else {
@@ -385,7 +385,7 @@ public class Game {
      * Prints the Card from player [playerIdx] 's deck
      * @param playerIdx index of the player whose deck should be printed.
      */
-    public void getPlayerDeck(int playerIdx) {
+    private void getPlayerDeck(int playerIdx) {
         if (playerIdx == 1) {
             successPrinter.printCardsInDeck(player1, output);
         } else {
@@ -396,14 +396,14 @@ public class Game {
     /**
      * Prints all the Cards from the board.
      */
-    public void getCardsOnTable() {
+    private void getCardsOnTable() {
         successPrinter.printCardsOnTable(board, output);
     }
 
     /**
      * Prints the index of the player at turn.
      */
-    public void getPlayerTurn() {
+    private void getPlayerTurn() {
         successPrinter.printPlayerTurn(currPlayer.getIndex(), output);
     }
 
@@ -411,7 +411,7 @@ public class Game {
     /**
      * Prints the Hero card of the player specified by the index.
      */
-    public void getPlayerHero(int playerIdx) {
+    private void getPlayerHero(int playerIdx) {
         if (playerIdx == 1) {
             successPrinter.printPlayerHero(player1, output);
         } else {
@@ -424,7 +424,7 @@ public class Game {
      * @param x row
      * @param y column
      */
-    public void getCardAtPosition(int x, int y) {
+    private void getCardAtPosition(int x, int y) {
         if (!errorPrinter.errorGetCardAtPosition(board, x, y, output)) {
             successPrinter.printCardAtPosition(board, x, y, output);
         }
@@ -433,7 +433,7 @@ public class Game {
     /**
      * Prints the mana of a player.
      */
-    public void getPlayerMana(int playerIdx) {
+    private void getPlayerMana(int playerIdx) {
         if (playerIdx == 1) {
             successPrinter.printPlayerMana(player1, output);
         } else {
@@ -444,7 +444,7 @@ public class Game {
     /**
      * Prints all the Environment Cards from a player's hand.
      */
-    public void getEnvironmentCardsInHand(int playerIdx) {
+    private void getEnvironmentCardsInHand(int playerIdx) {
         if (playerIdx == 1) {
             successPrinter.printEnvironmentCardInHand(player1, output);
         } else {
@@ -455,21 +455,21 @@ public class Game {
     /**
      * Prints all the frozen cards from the board.
      */
-    public void getFrozenCardsOnTable() {
+    private void getFrozenCardsOnTable() {
         successPrinter.printFrozenCardsOnTable(board, output);
     }
 
     /* *** Statistics command methods begin here. *** */
 
-    public void getTotalGamesPlayed() {
+    private void getTotalGamesPlayed() {
         successPrinter.printTotalGamesPlayed(totalGames, output);
     }
 
-    public void getPlayerOneWins() {
+    private void getPlayerOneWins() {
         successPrinter.printPlayerWins(player1, output);
     }
 
-    public void getPlayerTwoWins() {
+    private void getPlayerTwoWins() {
         successPrinter.printPlayerWins(player2, output);
     }
 
