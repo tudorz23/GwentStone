@@ -9,12 +9,11 @@ import static utils.Constants.INITIAL_HEALTH_HERO;
 /**
  * To be extended by specific heroes' classes.
  */
-public class Hero extends Card {
+public abstract class Hero extends Card {
     private int health;
     private boolean usedTurn;
 
-    /* Constructors */
-    public Hero() {}
+    /* Constructor */
     public Hero(int mana, String description, ArrayList<String> colors, String name) {
         super(mana, description, colors, name);
         this.health = INITIAL_HEALTH_HERO;
@@ -22,7 +21,7 @@ public class Hero extends Card {
         this.setType(HERO);
     }
 
-    public void useAbility(Board board, int index) {}
+    public abstract void useAbility(Board board, int index);
 
     /* Getters and Setters */
     public int getHealth() {

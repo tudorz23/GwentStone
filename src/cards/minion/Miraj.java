@@ -3,15 +3,13 @@ package cards.minion;
 import java.util.ArrayList;
 
 public class Miraj extends SpecialMinion {
-    /* Constructors */
-    public Miraj() {
-    }
+    /* Constructor */
     public Miraj(int mana, String description, ArrayList<String> colors, String name,
                  int health, int attack) {
         super(mana, description, colors, name, health, attack);
     }
 
-    @Override // Skyjack ability
+    // Skyjack ability
     public void useAbility(Minion minion) {
         int tmp = this.getHealth();
         this.setHealth(minion.getHealth());

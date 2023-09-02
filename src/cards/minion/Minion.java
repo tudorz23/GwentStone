@@ -15,8 +15,7 @@ public class Minion extends Card {
     private boolean usedTurn;
     private boolean tank;
 
-    /* Constructors */
-    public Minion() {}
+    /* Constructor */
     public Minion(int mana, String description, ArrayList<String> colors, String name, int health,
                   int attack) {
         super(mana, description, colors, name);

@@ -7,16 +7,15 @@ import cards.minion.Minion;
 import gameplay.Board;
 
 public class LordRoyce extends Hero {
-    /* Constructors */
-    public LordRoyce() {}
+    /* Constructor */
     public LordRoyce(int mana, String description, ArrayList<String> colors,
                      String name) {
         super(mana, description, colors, name);
     }
 
-    @Override // Sub-Zero ability
+    // Sub-Zero ability
     public void useAbility(Board board, int index) {
-        // get the minion with the highest attack from that row
+        // Get the minion with the highest attack from that row
         Minion minion = Collections.max(board.row[index].elems,
                 Comparator.comparing(Minion::getAttack));
 

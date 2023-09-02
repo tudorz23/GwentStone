@@ -19,8 +19,7 @@ public class Card {
      */
     private int type;
 
-    /* Constructors */
-    public Card() {}
+    /* Constructor */
     public Card(int mana, String description, ArrayList<String> colors, String name) {
         this.mana = mana;
         this.description = description;

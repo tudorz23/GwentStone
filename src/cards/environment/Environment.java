@@ -8,14 +8,12 @@ import static utils.Constants.ENVIRONMENT;
 /**
  * Contains useAbility() method.
  */
-public class Environment extends Card {
-    /* Constructors */
-    public Environment() {
-    }
+public abstract class Environment extends Card {
+    /* Constructor */
     public Environment(int mana, String description, ArrayList<String> colors, String name) {
         super(mana, description, colors, name);
         this.setType(ENVIRONMENT);
     }
 
-    public void useAbility(Board board, int index) {}
+    public abstract void useAbility(Board board, int index);
 }

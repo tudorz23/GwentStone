@@ -5,14 +5,13 @@ import gameplay.Board;
 import java.util.ArrayList;
 
 public class GeneralKocioraw extends Hero {
-    /* Constructors */
-    public GeneralKocioraw() {}
+    /* Constructor */
     public GeneralKocioraw(int mana, String description, ArrayList<String> colors,
                            String name) {
         super(mana, description, colors, name);
     }
 
-    @Override // Blood Thirst ability
+    // Blood Thirst ability
     public void useAbility(Board board, int index) {
         for (Minion minion : board.row[index].elems) {
             minion.setAttack(minion.getAttack() + 1);

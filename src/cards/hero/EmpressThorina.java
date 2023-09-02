@@ -7,14 +7,13 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class EmpressThorina extends Hero {
-    /* Constructors */
-    public EmpressThorina() {}
+    /* Constructor */
     public EmpressThorina(int mana, String description, ArrayList<String> colors,
                           String name) {
         super(mana, description, colors, name);
     }
 
-    @Override // Low Blow ability
+    // Low Blow ability
     public void useAbility(Board board, int index) {
         // get the minion with the highest health from that row
         Minion minion = Collections.max(board.row[index].elems,
