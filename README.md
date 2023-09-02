@@ -138,10 +138,14 @@
    * **Card** class is inherited by **Minion**, **Environment** and **Hero** classes.
    * Each of the extending classes are also extended by specific classes that implement
      special abilities.
+
+* ***Abstraction***
+  * **SpecialMinion**, **Hero** and **Environment** classes are *abstract*, each of them
+    containing the abstract method *useAbility()*, later implemented by the extending classes.
+
 * ***Polymorphism***
-   * **Environment** class has a method named *useAbility* which is overridden in the
-     extending classes.
-   * Something very similar happens with the **SpecialMinion** class and its extenders.
+   * The *useAbility()* abstract method has multiple implementations.
+
 * ***Encapsulation***
    * Almost all fields of every single class has the *private* access specifier and *getter*
      and *setter* methods are implemented for each one.
